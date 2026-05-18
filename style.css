@@ -30,6 +30,21 @@ body {
     line-height: 1.6;
 }
 
+.site-lab-logo {
+    position: fixed;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    z-index: 100;
+    border: 3px solid var(--card-border);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+    background: #0f172a;
+    pointer-events: none;
+}
+
 .hidden {
     display: none !important;
 }
@@ -93,20 +108,6 @@ body {
     object-fit: cover;
     border: 3px solid var(--accent);
     display: block;
-}
-
-.profile-lab-badge {
-    position: absolute;
-    right: -4px;
-    bottom: -4px;
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid var(--sidebar-bg);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
-    pointer-events: none;
-    background: #0f172a;
 }
 
 .profile h2 {
@@ -746,7 +747,7 @@ body {
     .content {
         margin-left: 0;
         width: 100%;
-        padding: 2rem 1.25rem;
+        padding: 3.5rem 1.25rem 2rem;
     }
 
     .hero h1 {
@@ -756,5 +757,12 @@ body {
     .section-header {
         flex-direction: column;
         align-items: flex-start;
+    }
+
+    .site-lab-logo {
+        width: 56px;
+        height: 56px;
+        top: 0.75rem;
+        right: 0.75rem;
     }
 }
