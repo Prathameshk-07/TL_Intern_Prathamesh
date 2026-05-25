@@ -1,7 +1,11 @@
 const STORAGE_KEY = 'tinkerer-portfolio-v1';
 const DEFAULT_PROFILE_SRC = 'assets/profile-photo.png';
+const MAX_FILE_SIZE = 5 * 1024 * 1024; /* 5 MB per file — localStorage limit */
 
 const ACCENT_COLORS = ['#3b82f6', '#8b5cf6', '#10b981', '#f59e0b', '#ef4444', '#06b6d4'];
+
+const FILE_ACCEPT =
+    '.pdf,.doc,.docx,.txt,.md,.zip,.rar,.7z,.stl,.gcode,.ino,.py,.js,.html,.css,.json,.xml,.csv,.png,.jpg,.jpeg,.gif,.webp,.svg,.mp4,.mov,.ppt,.pptx,.xls,.xlsx';
 
 const DEFAULT_DATA = {
     profileImage: null,
@@ -21,6 +25,7 @@ const DEFAULT_DATA = {
             description: 'Hydroponic system design and automation for soil-free plant growth.',
             tags: ['IoT', 'Automation'],
             color: ACCENT_COLORS[0],
+            files: [],
         },
         {
             id: 'p2',
@@ -28,6 +33,7 @@ const DEFAULT_DATA = {
             description: 'Building and programming a remote-controlled car with electronics assembly.',
             tags: ['Electronics', 'Arduino'],
             color: ACCENT_COLORS[1],
+            files: [],
         },
         {
             id: 'p3',
@@ -35,6 +41,7 @@ const DEFAULT_DATA = {
             description: 'A task-management web app built with HTML, CSS, and JavaScript.',
             tags: ['HTML', 'JavaScript'],
             color: ACCENT_COLORS[2],
+            files: [],
         },
     ],
     weeks: [
@@ -67,13 +74,61 @@ function mergeDefaults(parsed) {
         profileImage: parsed.profileImage ?? base.profileImage,
         aboutExtra: parsed.aboutExtra ?? base.aboutExtra,
         skills: parsed.skills?.length ? parsed.skills : base.skills,
-        projects: parsed.projects?.length ? parsed.projects : base.projects,
+        projects: (parsed.projects?.length ? parsed.projects : base.projects).map((p) => ({
+            ...p,
+            files: p.files ?? [],
+        })),
         weeks: parsed.weeks?.length === 4 ? parsed.weeks : base.weeks,
     };
 }
 
 function saveState() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (err) {
+        if (err.name === 'QuotaExceededError') {
+            alert('Storage is full. Remove some files or images, then try again. (Max ~5 MB per file.)');
+        } else {
+            alert('Could not save. Please try again.');
+        }
+        throw err;
+    }
+}
+
+function formatFileSize(bytes) {
+    if (!bytes) return '';
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+}
+
+function fileIcon(name, mime) {
+    const ext = (name || '').split('.').pop()?.toLowerCase() || '';
+    if (mime?.startsWith('image/') || ['png', 'jpg', 'jpeg', 'gif', 'webp', 'svg'].includes(ext)) return '🖼';
+    if (mime === 'application/pdf' || ext === 'pdf') return '📄';
+    if (['zip', 'rar', '7z'].includes(ext)) return '📦';
+    if (['py', 'js', 'ino', 'html', 'css', 'json'].includes(ext)) return '💻';
+    if (['stl', 'gcode'].includes(ext)) return '🔧';
+    if (['mp4', 'mov', 'webm'].includes(ext)) return '🎬';
+    return '📎';
+}
+
+function readFileAsDataUrl(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(reader.error);
+        reader.readAsDataURL(file);
+    });
+}
+
+function validateFile(file) {
+    if (!file) return false;
+    if (file.size > MAX_FILE_SIZE) {
+        alert(`"${file.name}" is too large. Maximum size is 5 MB per file.`);
+        return false;
+    }
+    return true;
 }
 
 function uid() {
@@ -135,16 +190,44 @@ function renderSkills() {
         .join('');
 }
 
+function renderProjectFiles(project) {
+    const files = project.files || [];
+    if (!files.length) {
+        return '<p class="project-files-empty">No files attached yet.</p>';
+    }
+    return `<ul class="file-list">${files
+        .map(
+            (f) => `
+        <li class="file-list-item">
+            <a href="${f.dataUrl}" download="${escapeHtml(f.fileName)}" class="file-link">
+                <span class="file-icon">${fileIcon(f.fileName, f.mimeType)}</span>
+                <span class="file-name">${escapeHtml(f.fileName)}</span>
+                <span class="file-size">${formatFileSize(f.size)}</span>
+            </a>
+            <button type="button" class="btn-icon delete-project-file" data-project="${project.id}" data-file="${f.id}" title="Remove file">&times;</button>
+        </li>`
+        )
+        .join('')}</ul>`;
+}
+
 function renderProjects() {
     const grid = document.getElementById('projects-grid');
     grid.innerHTML = state.projects
         .map(
             (p) => `
-        <article class="project-card" style="--accent:${p.color}">
+        <article class="project-card" style="--accent:${p.color}" data-id="${p.id}">
             <div class="project-accent"></div>
             <h3>${escapeHtml(p.title)}</h3>
             <p>${escapeHtml(p.description)}</p>
             <div class="project-tags">${p.tags.map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
+            <div class="project-files">
+                <span class="project-files-label">Attachments</span>
+                ${renderProjectFiles(p)}
+                <label class="btn btn-ghost btn-sm btn-file">
+                    📎 Add files
+                    <input type="file" multiple accept="${FILE_ACCEPT}" data-project-upload="${p.id}" hidden>
+                </label>
+            </div>
             <button type="button" class="btn-icon delete-project" data-id="${p.id}" title="Remove project" aria-label="Remove project">&times;</button>
         </article>`
         )
@@ -177,6 +260,10 @@ function renderWeeks() {
                         🖼 Add Image
                         <input type="file" accept="image/*" data-action="image" data-week="${index}" hidden>
                     </label>
+                    <label class="btn btn-week btn-file">
+                        📎 Add File
+                        <input type="file" accept="${FILE_ACCEPT}" data-action="file" data-week="${index}" hidden>
+                    </label>
                 </div>
             </div>
         </div>`;
@@ -185,7 +272,13 @@ function renderWeeks() {
 }
 
 function renderEntry(entry) {
-    const typeLabels = { note: '📝 Note', learning: '📖 Learning', project: '🛠 Project', image: '🖼 Image' };
+    const typeLabels = {
+        note: '📝 Note',
+        learning: '📖 Learning',
+        project: '🛠 Project',
+        image: '🖼 Image',
+        file: '📎 File',
+    };
     let body = '';
 
     switch (entry.type) {
@@ -206,6 +299,15 @@ function renderEntry(entry) {
         case 'image':
             body = `<img src="${entry.src}" alt="${escapeHtml(entry.caption || 'Lab photo')}" class="entry-image">`;
             if (entry.caption) body += `<p class="image-caption">${escapeHtml(entry.caption)}</p>`;
+            break;
+        case 'file':
+            body = `
+                <a href="${entry.dataUrl}" download="${escapeHtml(entry.fileName)}" class="file-link file-link--block">
+                    <span class="file-icon">${fileIcon(entry.fileName, entry.mimeType)}</span>
+                    <span class="file-name">${escapeHtml(entry.fileName)}</span>
+                    <span class="file-size">${formatFileSize(entry.size)}</span>
+                </a>`;
+            if (entry.description) body += `<p class="file-desc">${escapeHtml(entry.description)}</p>`;
             break;
     }
 
@@ -319,6 +421,7 @@ function addProject() {
                 description: data.description.trim(),
                 tags,
                 color: ACCENT_COLORS[state.projects.length % ACCENT_COLORS.length],
+                files: [],
             });
             saveState();
             renderProjects();
@@ -402,6 +505,7 @@ function addWeekEntry(weekIndex, type) {
 
 function addWeekImage(weekIndex, file) {
     if (!file || !file.type.startsWith('image/')) return;
+    if (!validateFile(file)) return;
     const reader = new FileReader();
     reader.onload = () => {
         openModal(
@@ -420,9 +524,74 @@ function addWeekImage(weekIndex, file) {
                 renderWeeks();
             }
         );
-        modalContext._imageSrc = reader.result;
     };
     reader.readAsDataURL(file);
+}
+
+async function addWeekFile(weekIndex, file) {
+    if (!file || !validateFile(file)) return;
+    try {
+        const dataUrl = await readFileAsDataUrl(file);
+        openModal(
+            'Add File',
+            `<p class="file-preview-name">${fileIcon(file.name, file.type)} ${escapeHtml(file.name)} <span class="file-size">(${formatFileSize(file.size)})</span></p>` +
+                fieldGroup('Description (optional)', 'description', 'textarea', {
+                    placeholder: 'What is this file? (e.g. CAD design, lab report, code)',
+                    required: false,
+                    rows: 3,
+                }),
+            (data) => {
+                state.weeks[weekIndex].entries.unshift({
+                    id: uid(),
+                    type: 'file',
+                    fileName: file.name,
+                    mimeType: file.type || 'application/octet-stream',
+                    size: file.size,
+                    dataUrl,
+                    description: data.description?.trim() || '',
+                    createdAt: new Date().toISOString(),
+                });
+                saveState();
+                renderWeeks();
+            }
+        );
+        modalContext._pendingFile = { dataUrl, file };
+    } catch {
+        alert('Could not read that file. Please try again.');
+    }
+}
+
+async function addProjectFiles(projectId, fileList) {
+    const project = state.projects.find((p) => p.id === projectId);
+    if (!project) return;
+    if (!project.files) project.files = [];
+
+    for (const file of fileList) {
+        if (!validateFile(file)) continue;
+        try {
+            const dataUrl = await readFileAsDataUrl(file);
+            project.files.push({
+                id: uid(),
+                fileName: file.name,
+                mimeType: file.type || 'application/octet-stream',
+                size: file.size,
+                dataUrl,
+                createdAt: new Date().toISOString(),
+            });
+        } catch {
+            alert(`Could not add "${file.name}".`);
+        }
+    }
+    saveState();
+    renderProjects();
+}
+
+function deleteProjectFile(projectId, fileId) {
+    const project = state.projects.find((p) => p.id === projectId);
+    if (!project?.files) return;
+    project.files = project.files.filter((f) => f.id !== fileId);
+    saveState();
+    renderProjects();
 }
 
 function toggleWeek(index) {
@@ -506,9 +675,21 @@ document.getElementById('weeks-container').addEventListener('click', (e) => {
 });
 
 document.getElementById('weeks-container').addEventListener('change', (e) => {
-    const input = e.target.closest('input[data-action="image"]');
-    if (input?.files[0]) {
-        addWeekImage(Number(input.dataset.week), input.files[0]);
+    const input = e.target.closest('input[data-action]');
+    if (!input?.files?.[0]) return;
+    const weekIndex = Number(input.dataset.week);
+    if (input.dataset.action === 'image') {
+        addWeekImage(weekIndex, input.files[0]);
+    } else if (input.dataset.action === 'file') {
+        addWeekFile(weekIndex, input.files[0]);
+    }
+    input.value = '';
+});
+
+document.getElementById('projects-grid').addEventListener('change', (e) => {
+    const input = e.target.closest('input[data-project-upload]');
+    if (input?.files?.length) {
+        addProjectFiles(input.dataset.projectUpload, [...input.files]);
         input.value = '';
     }
 });
@@ -519,6 +700,11 @@ document.getElementById('skills-list').addEventListener('click', (e) => {
 });
 
 document.getElementById('projects-grid').addEventListener('click', (e) => {
+    const fileBtn = e.target.closest('.delete-project-file');
+    if (fileBtn && confirm('Remove this file?')) {
+        deleteProjectFile(fileBtn.dataset.project, fileBtn.dataset.file);
+        return;
+    }
     const btn = e.target.closest('.delete-project');
     if (btn && confirm('Remove this project?')) deleteProject(btn.dataset.id);
 });
