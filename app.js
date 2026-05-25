@@ -7,6 +7,62 @@ const ACCENT_COLORS = ['#3b82f6', '#8b5cf6', '#10b981', '#f59e0b', '#ef4444', '#
 const FILE_ACCEPT =
     '.pdf,.doc,.docx,.txt,.md,.zip,.rar,.7z,.stl,.gcode,.ino,.py,.js,.html,.css,.json,.xml,.csv,.png,.jpg,.jpeg,.gif,.webp,.svg,.mp4,.mov,.ppt,.pptx,.xls,.xlsx';
 
+function buildWeek1GithubEntries() {
+    const base = 'assets/week1-github/';
+    const steps = [
+        ['01-github-dashboard-profile.png', 'GitHub dashboard — open profile menu from top right.'],
+        ['02-github-repositories-menu.png', 'Select Repositories from the profile dropdown.'],
+        ['03-new-repository-button.png', 'Click the green New button to create a repository.'],
+        ['04-create-repository-form.png', 'Create a new repository (name: TL_Intern_Prathamesh).'],
+        ['05-repository-configuration.png', 'Set visibility to Public; leave README off; click Create repository.'],
+        ['06-open-visual-studio-code.png', 'Open Visual Studio Code from Windows search.'],
+        ['07-vscode-file-menu.png', 'In VS Code, open the File menu.'],
+        ['08-vscode-open-folder.png', 'Choose Open Folder to load the project.'],
+        ['09-select-portfolio-folder.png', 'Select the portfolio p folder from Downloads.'],
+        ['10-vscode-terminal-menu.png', 'Open the Terminal menu in VS Code.'],
+        ['11-new-terminal.png', 'Click New Terminal (Ctrl+Shift+`).'],
+        ['12-git-init-terminal.png', 'Run git init in the integrated terminal.'],
+        ['13-git-status-clean.png', 'Run git status to check branch and working tree.'],
+        ['14-git-branch-main.png', 'Rename branch to main: git branch -M main.'],
+        ['15-vscode-source-control.png', 'Use Source Control panel to stage, commit, and push.'],
+        ['16-github-profile-repositories.png', 'GitHub profile — Repositories tab.'],
+        ['17-tl-intern-repository.png', 'TL_Intern_Prathamesh repository on GitHub.'],
+        ['18-git-init-reinitialized.png', 'git init — repository initialized in project folder.'],
+        ['19-git-status-and-branch.png', 'git status and git branch -M main in terminal.'],
+        ['20-push-ready-terminal.png', 'Terminal ready after Git setup in VS Code.'],
+        ['21-github-repos-overview.png', 'All repositories on GitHub account overview.'],
+    ];
+
+    const images = steps.map(([file, caption], i) => ({
+        id: `w1-github-img-${String(i + 1).padStart(2, '0')}`,
+        type: 'image',
+        src: base + file,
+        caption,
+        createdAt: `2026-05-20T${String(9 + Math.floor(i / 4)).padStart(2, '0')}:${String((i * 3) % 60).padStart(2, '0')}:00.000Z`,
+    }));
+
+    return [
+        {
+            id: 'w1-github-intro',
+            type: 'project',
+            title: 'Introduction to GitHub',
+            description:
+                'Week 1 activity: setting up GitHub and pushing the Tinkerers\' Lab portfolio from VS Code. Steps covered — create the TL_Intern_Prathamesh repository on GitHub, open the project in VS Code, use git init, git status, git branch -M main, then stage, commit, and push via the Source Control panel or terminal (git add ., git commit -m "message", git push -u origin main).',
+            createdAt: '2026-05-20T09:00:00.000Z',
+        },
+        {
+            id: 'w1-github-learning',
+            type: 'learning',
+            topic: 'Introduction to GitHub',
+            machine: 'Visual Studio Code, Git, GitHub',
+            concept:
+                'Version control with Git lets you track project changes. GitHub hosts the remote repository. VS Code integrates Git so you can push portfolio files without leaving the editor.',
+            createdAt: '2026-05-20T09:05:00.000Z',
+        },
+        ...images,
+    ];
+}
+
 const DEFAULT_DATA = {
     profileImage: null,
     aboutExtra: '',
@@ -45,7 +101,7 @@ const DEFAULT_DATA = {
         },
     ],
     weeks: [
-        { id: 'w1', label: 'Week 1', expanded: false, entries: [] },
+        { id: 'w1', label: 'Week 1', expanded: true, entries: buildWeek1GithubEntries() },
         { id: 'w2', label: 'Week 2', expanded: false, entries: [] },
         { id: 'w3', label: 'Week 3', expanded: false, entries: [] },
         { id: 'w4', label: 'Week 4', expanded: false, entries: [] },
@@ -78,7 +134,17 @@ function mergeDefaults(parsed) {
             ...p,
             files: p.files ?? [],
         })),
-        weeks: parsed.weeks?.length === 4 ? parsed.weeks : base.weeks,
+        weeks: (parsed.weeks?.length === 4 ? parsed.weeks : base.weeks).map((week, index) => {
+            if (index !== 0) return week;
+            const entries = week.entries ?? [];
+            const hasIntro = entries.some((e) => e.id === 'w1-github-intro');
+            if (hasIntro) return { ...week, expanded: week.expanded ?? true };
+            return {
+                ...week,
+                expanded: true,
+                entries: [...buildWeek1GithubEntries(), ...entries],
+            };
+        }),
     };
 }
 
@@ -292,9 +358,10 @@ function renderEntry(entry) {
                 ${entry.concept ? `<p><strong>Concept:</strong> ${escapeHtml(entry.concept)}</p>` : ''}`;
             break;
         case 'project':
-            body = `
-                <p><strong>${escapeHtml(entry.title)}</strong></p>
-                <p>${escapeHtml(entry.description)}</p>`;
+            body =
+                entry.id === 'w1-github-intro'
+                    ? `<h3 class="week-section-heading">${escapeHtml(entry.title)}</h3><p>${escapeHtml(entry.description)}</p>`
+                    : `<p><strong>${escapeHtml(entry.title)}</strong></p><p>${escapeHtml(entry.description)}</p>`;
             break;
         case 'image':
             body = `<img src="${entry.src}" alt="${escapeHtml(entry.caption || 'Lab photo')}" class="entry-image">`;

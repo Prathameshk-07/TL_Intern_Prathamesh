@@ -552,6 +552,20 @@ body {
     border-left-color: #06b6d4;
 }
 
+.week-section-heading {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #e2e8f0;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--accent);
+}
+
+.log-entry[data-id="w1-github-intro"] {
+    border-left-color: var(--accent);
+    border-left-width: 5px;
+}
+
 .log-entry-header {
     display: flex;
     align-items: center;
