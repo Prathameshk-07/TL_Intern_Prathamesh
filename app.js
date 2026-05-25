@@ -1,4 +1,6 @@
 const STORAGE_KEY = 'tinkerer-portfolio-v1';
+const WEEK1_CONTENT_VERSION = '2';
+const WEEK1_CONTENT_VERSION_KEY = 'week1-content-v';
 const DEFAULT_PROFILE_SRC = 'assets/profile-photo.png';
 const MAX_FILE_SIZE = 5 * 1024 * 1024; /* 5 MB per file — localStorage limit */
 
@@ -10,27 +12,90 @@ const FILE_ACCEPT =
 function buildWeek1GithubEntries() {
     const base = 'assets/week1-github/';
     const steps = [
-        ['01-github-dashboard-profile.png', 'GitHub dashboard — open profile menu from top right.'],
-        ['02-github-repositories-menu.png', 'Select Repositories from the profile dropdown.'],
-        ['03-new-repository-button.png', 'Click the green New button to create a repository.'],
-        ['04-create-repository-form.png', 'Create a new repository (name: TL_Intern_Prathamesh).'],
-        ['05-repository-configuration.png', 'Set visibility to Public; leave README off; click Create repository.'],
-        ['06-open-visual-studio-code.png', 'Open Visual Studio Code from Windows search.'],
-        ['07-vscode-file-menu.png', 'In VS Code, open the File menu.'],
-        ['08-vscode-open-folder.png', 'Choose Open Folder to load the project.'],
-        ['09-select-portfolio-folder.png', 'Select the portfolio p folder from Downloads.'],
-        ['10-vscode-terminal-menu.png', 'Open the Terminal menu in VS Code.'],
-        ['11-new-terminal.png', 'Click New Terminal (Ctrl+Shift+`).'],
-        ['12-git-init-terminal.png', 'Run git init in the integrated terminal.'],
-        ['13-git-status-clean.png', 'Run git status to check branch and working tree.'],
-        ['14-git-branch-main.png', 'Rename branch to main: git branch -M main.'],
-        ['15-vscode-source-control.png', 'Use Source Control panel to stage, commit, and push.'],
-        ['16-github-profile-repositories.png', 'GitHub profile — Repositories tab.'],
-        ['17-tl-intern-repository.png', 'TL_Intern_Prathamesh repository on GitHub.'],
-        ['18-git-init-reinitialized.png', 'git init — repository initialized in project folder.'],
-        ['19-git-status-and-branch.png', 'git status and git branch -M main in terminal.'],
-        ['20-push-ready-terminal.png', 'Terminal ready after Git setup in VS Code.'],
-        ['21-github-repos-overview.png', 'All repositories on GitHub account overview.'],
+        [
+            '01-github-dashboard-profile.png',
+            'Day 1 · Step 1 — Log in to GitHub. On the Dashboard, click your profile picture (top-right). Your account is Prathameshk-07 and TL_Intern_Prathamesh already appears under Top repositories.',
+        ],
+        [
+            '02-github-repositories-menu.png',
+            'Day 1 · Step 2 — From the profile menu, choose Repositories to open the full list of your projects.',
+        ],
+        [
+            '03-new-repository-button.png',
+            'Day 1 · Step 3 — On the Repositories page, click the green New button to create a repository for the internship portfolio.',
+        ],
+        [
+            '04-create-repository-form.png',
+            'Day 1 · Step 4 — Create repository form: enter the name TL_Intern_Prathamesh and add a short description for the Tinkerers\' Lab internship work.',
+        ],
+        [
+            '05-repository-configuration.png',
+            'Day 1 · Step 5 — Configuration: set visibility to Public, keep Add README off (we will push files from VS Code), then click Create repository.',
+        ],
+        [
+            '06-open-visual-studio-code.png',
+            'Day 1 · Step 6 — Open Visual Studio Code from Windows search so we can edit the portfolio and run Git commands.',
+        ],
+        [
+            '07-vscode-file-menu.png',
+            'Day 1 · Step 7 — In VS Code, open the File menu to load the project folder from the computer.',
+        ],
+        [
+            '08-vscode-open-folder.png',
+            'Day 1 · Step 8 — Select Open Folder… to connect VS Code to the portfolio directory.',
+        ],
+        [
+            '09-select-portfolio-folder.png',
+            'Day 1 · Step 9 — Browse to Downloads and select the portfolio p folder, then confirm with Select Folder.',
+        ],
+        [
+            '10-vscode-terminal-menu.png',
+            'Day 1 · Step 10 — Open the Terminal menu in VS Code (we will use the integrated terminal for Git).',
+        ],
+        [
+            '11-new-terminal.png',
+            'Day 1 · Step 11 — Click New Terminal (shortcut Ctrl+Shift+`) to open PowerShell inside the project.',
+        ],
+        [
+            '12-git-init-terminal.png',
+            'Day 1 · Step 12 — In the terminal, run git init. Git creates (or reinitializes) a .git folder inside portfolio p.',
+        ],
+        [
+            '13-git-status-clean.png',
+            'Day 1 · Step 13 — Run git status. Output shows On branch main and working tree clean when there are no pending changes.',
+        ],
+        [
+            '14-git-branch-main.png',
+            'Day 1 · Step 14 — Run git branch -M main to rename the current branch to main (GitHub\'s default branch name).',
+        ],
+        [
+            '15-vscode-source-control.png',
+            'Day 1 · Step 15 — Run git commit -m "Portfolio Upload". If nothing is staged yet, Git reports nothing to commit — run git add . first, then commit again.',
+        ],
+        [
+            '16-github-profile-repositories.png',
+            'Day 1 · Step 16 — Open your GitHub profile and switch to the Repositories tab to view all projects.',
+        ],
+        [
+            '17-tl-intern-repository.png',
+            'Day 1 · Step 17 — Link the local folder to GitHub: git add . then git remote add origin https://github.com/Prathameshk-07/TL_Intern_Prathamesh.git',
+        ],
+        [
+            '18-git-init-reinitialized.png',
+            'Day 1 · Step 18 — Run git init again if needed; message Reinitialized existing Git repository confirms Git is set up in this folder.',
+        ],
+        [
+            '19-git-status-and-branch.png',
+            'Day 1 · Step 19 — Repeat git status and git branch -M main to verify branch name and a clean working tree before pushing.',
+        ],
+        [
+            '20-push-ready-terminal.png',
+            'Day 1 · Step 20 — On GitHub, open Repositories and select TL_Intern_Prathamesh (public, JavaScript) — this is where the portfolio will be hosted.',
+        ],
+        [
+            '21-github-repos-overview.png',
+            'Day 1 · Step 21 — Final check: all repositories listed on the profile, including TL_Intern_Prathamesh, Weather-App, ToDo-App, and others.',
+        ],
     ];
 
     const images = steps.map(([file, caption], i) => ({
@@ -45,18 +110,18 @@ function buildWeek1GithubEntries() {
         {
             id: 'w1-github-intro',
             type: 'project',
-            title: 'Introduction to GitHub',
+            title: 'Week 1 — Day 1: Introduction to GitHub',
             description:
-                'Week 1 activity: setting up GitHub and pushing the Tinkerers\' Lab portfolio from VS Code. Steps covered — create the TL_Intern_Prathamesh repository on GitHub, open the project in VS Code, use git init, git status, git branch -M main, then stage, commit, and push via the Source Control panel or terminal (git add ., git commit -m "message", git push -u origin main).',
+                'Day 1 goal: host the internship portfolio on GitHub using VS Code. I created the public repository TL_Intern_Prathamesh, opened the portfolio p folder in VS Code, initialized Git (git init), checked status (git status), set the branch to main (git branch -M main), connected the remote (git remote add origin), and prepared to push with git add ., git commit, and git push -u origin main.',
             createdAt: '2026-05-20T09:00:00.000Z',
         },
         {
             id: 'w1-github-learning',
             type: 'learning',
-            topic: 'Introduction to GitHub',
-            machine: 'Visual Studio Code, Git, GitHub',
+            topic: 'Introduction to GitHub & Git',
+            machine: 'GitHub (web), Visual Studio Code, Git in terminal',
             concept:
-                'Version control with Git lets you track project changes. GitHub hosts the remote repository. VS Code integrates Git so you can push portfolio files without leaving the editor.',
+                'A repository stores project files online. Git tracks every change locally; GitHub is the remote backup. VS Code\'s terminal runs the same Git commands as the command line: init → add → commit → push.',
             createdAt: '2026-05-20T09:05:00.000Z',
         },
         ...images,
@@ -66,43 +131,43 @@ function buildWeek1GithubEntries() {
 function buildWeek1Day2Entries() {
     const base = 'assets/week1-day2-inkscape/';
     const captions = [
-        'Step 1 — Search Google for “inkscape download” to find the official installer.',
-        'Step 2 — Select a suggested search such as “inkscape download for windows 10”.',
-        'Step 3 — Open the official inkscape.org download link (avoid third-party sites).',
-        'Step 4 — On inkscape.org, open the Download menu and choose the current stable version.',
-        'Step 5 — Download page: confirm Inkscape version and release information.',
-        'Step 6 — Select platform: choose Windows for a Windows laptop.',
-        'Step 7 — Choose 64-bit (x86_64) architecture — recommended for most PCs.',
-        'Step 8 — Pick the Windows .exe installer format for a simple setup.',
-        'Step 9 — Confirm 64-bit Windows download option before the file starts.',
-        'Step 10 — Download started; wait for the installer file to finish downloading.',
-        'Step 11 — Installer: choose install location (default Program Files is fine).',
-        'Step 12 — Installer options: PATH and desktop icon settings, then click Next.',
-        'Step 13 — Installation completes; ready to launch Inkscape.',
-        'Step 14 — Inkscape Setup welcome screen — click Next to begin.',
-        'Step 15 — Continue through the setup wizard screens.',
-        'Step 16 — Also install GIMP (optional) for photo editing and compositing.',
-        'Step 17 — GIMP download page for Windows.',
-        'Step 18 — Confirm GIMP Windows installer download.',
-        'Step 19 — Save the downloaded installer file to Documents (or Downloads).',
-        'Step 20 — Inkscape.org download page showing msi / exe / 7z options.',
-        'Step 21 — Launch Inkscape after installation from the Start menu.',
-        'Step 22 — First launch — Inkscape opens with toolbars and rulers.',
-        'Step 23 — Main Inkscape workspace: canvas, toolbox, and menu bar.',
-        'Step 24 — Select the ellipse/circle tool to draw the logo base shape.',
-        'Step 25 — Draw a filled blue circle as the center of the badge.',
-        'Step 26 — Welcome dialog: click New Document to start a fresh canvas.',
-        'Step 27 — New document ready — white canvas for the logo design.',
-        'Step 28 — Circle tool: create the main blue circle (logo core).',
-        'Step 29 — Text tool: type “TINKERERS\' LAB” above the circle in bold font.',
-        'Step 30 — Path menu: use path commands to curve text around the circle.',
-        'Step 31 — Adjust letter spacing and text size for a balanced ring.',
-        'Step 32 — Flip tool: mirror objects to keep the layout symmetrical.',
-        'Step 33 — Add curved “INTERN” text along the top arc of the ring.',
-        'Step 34 — Add a red outer ring around the blue center circle.',
-        'Step 35 — Align and group all logo parts into one object.',
-        'Step 36 — Export the logo as PNG/SVG (File → Export or Save As).',
-        'Step 37 — Final result: Tinkerers\' Lab badge placed on the profile photo.',
+        'Day 2 · Step 1 — Open Google and search “inkscape download” to find the official website.',
+        'Day 2 · Step 2 — Google results: click Download Inkscape from inkscape.org (first result), not third-party sites.',
+        'Day 2 · Step 3 — Download Started page on inkscape.org (version 1.4.4, Windows 64-bit msi). Wait for the file or click the manual link.',
+        'Day 2 · Step 4 — On the download page, select the Windows platform (Microsoft Windows Desktop).',
+        'Day 2 · Step 5 — Choose 64-bit (x86_64) — use this option on most laptops (“Choose if unsure”).',
+        'Day 2 · Step 6 — Pick Installer in .exe format for a straightforward Windows setup.',
+        'Day 2 · Step 7 — Save As dialog: save the Inkscape installer (inkscape-1.4.4…x64.signed) into Documents, then click Save.',
+        'Day 2 · Step 8 — Windows Save As window showing the installer filename before downloading finishes.',
+        'Day 2 · Step 9 — Inkscape Setup welcome screen (v1.4.4): read the note, then click Next.',
+        'Day 2 · Step 10 — Install Options: leave “Do not add to PATH” and desktop icon as needed, then click Next.',
+        'Day 2 · Step 11 — Choose Install Location: default C:\\Program Files\\Inkscape, then click Next.',
+        'Day 2 · Step 12 — Choose Components: Full install (editor, Python, extensions) — about 641 MB — click Install.',
+        'Day 2 · Step 13 — Inkscape launch screen (Time to Draw): click New Document to open a blank canvas.',
+        'Day 2 · Step 14 — Empty Inkscape workspace: toolbox on the left, rulers, and a grey canvas ready for drawing.',
+        'Day 2 · Step 15 — Circle tool (F5): draw a solid red circle — this becomes the outer ring of the badge.',
+        'Day 2 · Step 16 — Place “TINKERERS\' LAB” text above a blue circle; use the Select tool to position both shapes.',
+        'Day 2 · Step 17 — Text tool (A): add and style the label TINKERERS\' LAB in bold black lettering.',
+        'Day 2 · Step 18 — Path menu → Object to Path: convert text into editable vector paths for curving.',
+        'Day 2 · Step 19 — Path menu open while the blue circle is selected — prepare to combine or edit shapes.',
+        'Day 2 · Step 20 — Text menu: adjust the TINKERERS\' LAB lettering (font, size, striped style).',
+        'Day 2 · Step 21 — Curved text along the bottom of the blue circle — early logo layout.',
+        'Day 2 · Step 22 — Logo preview: blue circle with TINKERERS\' LAB curved on the lower arc.',
+        'Day 2 · Step 23 — Blue circle with TINKERERS\' LAB arched on top; use rotation handles to fine-tune angle.',
+        'Day 2 · Step 24 — Red inner circle + blue outer ring with TINKERERS\' LAB on the top curve (two-ring design).',
+        'Day 2 · Step 25 — Draw a large red circle (base layer) with the ellipse tool; resize using the handles.',
+        'Day 2 · Step 26 — Object → Lower: send the red circle behind other shapes so layers stack correctly.',
+        'Day 2 · Step 27 — Add INTERN text above the badge; select and position it with the transform handles.',
+        'Day 2 · Step 28 — Near-final badge: blue center, red ring, INTERN on top, TINKERERS\' LAB curved below.',
+        'Day 2 · Step 29 — Align & Distribute: center INTERN and the ring so the logo is balanced.',
+        'Day 2 · Step 30 — Complete circular badge: TINKERERS\' LAB (top arc) and INTERN (bottom arc) on red/blue rings.',
+        'Day 2 · Step 31 — Fill & Stroke panel: set fill colours (red circle, blue ring, black text).',
+        'Day 2 · Step 32 — Red circle with both curved text labels; ready to export.',
+        'Day 2 · Step 33 — Full red disc with TINKERERS\' LAB and INTERN in black along the inner edge.',
+        'Day 2 · Step 34 — Colour palette: pick black swatch for the text fill.',
+        'Day 2 · Step 35 — Add inner guide circle (black stroke) to space the text evenly inside the badge.',
+        'Day 2 · Step 36 — Badge template with TINKERERS\' LAB (top), INTERN (bottom), and NAME placeholder in the center.',
+        'Day 2 · Step 37 — Reference: official Sanjivani University Tinkerers\' Lab seal (crest, torch, SANJIVANI UNIVERSITY) used as design inspiration for the internship logo.',
     ];
 
     const images = captions.map((caption, i) => ({
@@ -119,16 +184,16 @@ function buildWeek1Day2Entries() {
             type: 'project',
             title: 'Week 1 — Day 2: Inkscape & Logo Design',
             description:
-                'Day 2 focused on vector graphics for the internship portfolio. I downloaded and installed Inkscape, learned basic tools (shapes, text, paths, flip), designed a circular Tinkerers\' Lab / INTERN badge, exported it as an image, and composited it onto my profile photo for the portfolio sidebar.',
+                'Day 2 focused on creating the Tinkerers\' Lab internship badge in Inkscape 1.4.4. I downloaded and installed the software, started a new document, drew circles for the red and blue rings, added curved text (TINKERERS\' LAB and INTERN), used Path → Object to Path and Object → Lower for layering, aligned the elements, and compared my design with the official university seal before exporting the logo for the portfolio.',
             createdAt: '2026-05-22T10:00:00.000Z',
         },
         {
             id: 'w1-day2-learning',
             type: 'learning',
-            topic: 'Inkscape vector design',
-            machine: 'Inkscape 1.4.4, GIMP (optional)',
+            topic: 'Inkscape vector logo design',
+            machine: 'Inkscape 1.4.4 (Windows), ellipse & text tools',
             concept:
-                'Vector graphics use paths and shapes that scale without losing quality. Inkscape is free and open source — ideal for logos. Text-on-path, grouping, and export (PNG/SVG) are essential steps before using the logo on a website or photo.',
+                'Logos should be built as vectors (circles + paths + text) so they stay sharp at any size. Key steps: draw rings with the circle tool, curve text with Path/Object to Path, stack layers with Raise/Lower, align with Align & Distribute, then export PNG for the website.',
             createdAt: '2026-05-22T10:05:00.000Z',
         },
         ...images,
@@ -187,17 +252,39 @@ const DEFAULT_DATA = {
 let state = loadState();
 let modalContext = null;
 
+function applyWeek1ContentVersion(state) {
+    if (localStorage.getItem(WEEK1_CONTENT_VERSION_KEY) === WEEK1_CONTENT_VERSION) {
+        return state;
+    }
+    if (state.weeks?.[0]) {
+        state.weeks[0] = {
+            ...state.weeks[0],
+            expanded: true,
+            entries: buildWeek1AllEntries(),
+        };
+    }
+    localStorage.setItem(WEEK1_CONTENT_VERSION_KEY, WEEK1_CONTENT_VERSION);
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (_) {
+        /* ignore quota on version bump */
+    }
+    return state;
+}
+
 function loadState() {
     try {
         const raw = localStorage.getItem(STORAGE_KEY);
         if (raw) {
             const parsed = JSON.parse(raw);
-            return mergeDefaults(parsed);
+            return applyWeek1ContentVersion(mergeDefaults(parsed));
         }
     } catch (_) {
         /* use defaults */
     }
-    return structuredClone(DEFAULT_DATA);
+    const fresh = structuredClone(DEFAULT_DATA);
+    localStorage.setItem(WEEK1_CONTENT_VERSION_KEY, WEEK1_CONTENT_VERSION);
+    return fresh;
 }
 
 function mergeDefaults(parsed) {
@@ -210,17 +297,7 @@ function mergeDefaults(parsed) {
             ...p,
             files: p.files ?? [],
         })),
-        weeks: (parsed.weeks?.length === 4 ? parsed.weeks : base.weeks).map((week, index) => {
-            if (index !== 0) return week;
-            let entries = week.entries ?? [];
-            if (!entries.some((e) => e.id === 'w1-github-intro')) {
-                entries = [...buildWeek1GithubEntries(), ...entries];
-            }
-            if (!entries.some((e) => e.id === 'w1-day2-intro')) {
-                entries = [...entries, ...buildWeek1Day2Entries()];
-            }
-            return { ...week, expanded: week.expanded ?? true, entries };
-        }),
+        weeks: parsed.weeks?.length === 4 ? parsed.weeks : base.weeks,
     };
 }
 
@@ -435,7 +512,8 @@ function renderEntry(entry) {
             break;
         case 'project':
             body =
-                entry.id === 'w1-github-intro' || entry.id === 'w1-day2-intro'
+                entry.id === 'w1-github-intro' ||
+                entry.id === 'w1-day2-intro'
                     ? `<h3 class="week-section-heading">${escapeHtml(entry.title)}</h3><p>${escapeHtml(entry.description)}</p>`
                     : `<p><strong>${escapeHtml(entry.title)}</strong></p><p>${escapeHtml(entry.description)}</p>`;
             break;
