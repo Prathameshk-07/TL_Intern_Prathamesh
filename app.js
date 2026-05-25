@@ -63,6 +63,82 @@ function buildWeek1GithubEntries() {
     ];
 }
 
+function buildWeek1Day2Entries() {
+    const base = 'assets/week1-day2-inkscape/';
+    const captions = [
+        'Step 1 — Search Google for “inkscape download” to find the official installer.',
+        'Step 2 — Select a suggested search such as “inkscape download for windows 10”.',
+        'Step 3 — Open the official inkscape.org download link (avoid third-party sites).',
+        'Step 4 — On inkscape.org, open the Download menu and choose the current stable version.',
+        'Step 5 — Download page: confirm Inkscape version and release information.',
+        'Step 6 — Select platform: choose Windows for a Windows laptop.',
+        'Step 7 — Choose 64-bit (x86_64) architecture — recommended for most PCs.',
+        'Step 8 — Pick the Windows .exe installer format for a simple setup.',
+        'Step 9 — Confirm 64-bit Windows download option before the file starts.',
+        'Step 10 — Download started; wait for the installer file to finish downloading.',
+        'Step 11 — Installer: choose install location (default Program Files is fine).',
+        'Step 12 — Installer options: PATH and desktop icon settings, then click Next.',
+        'Step 13 — Installation completes; ready to launch Inkscape.',
+        'Step 14 — Inkscape Setup welcome screen — click Next to begin.',
+        'Step 15 — Continue through the setup wizard screens.',
+        'Step 16 — Also install GIMP (optional) for photo editing and compositing.',
+        'Step 17 — GIMP download page for Windows.',
+        'Step 18 — Confirm GIMP Windows installer download.',
+        'Step 19 — Save the downloaded installer file to Documents (or Downloads).',
+        'Step 20 — Inkscape.org download page showing msi / exe / 7z options.',
+        'Step 21 — Launch Inkscape after installation from the Start menu.',
+        'Step 22 — First launch — Inkscape opens with toolbars and rulers.',
+        'Step 23 — Main Inkscape workspace: canvas, toolbox, and menu bar.',
+        'Step 24 — Select the ellipse/circle tool to draw the logo base shape.',
+        'Step 25 — Draw a filled blue circle as the center of the badge.',
+        'Step 26 — Welcome dialog: click New Document to start a fresh canvas.',
+        'Step 27 — New document ready — white canvas for the logo design.',
+        'Step 28 — Circle tool: create the main blue circle (logo core).',
+        'Step 29 — Text tool: type “TINKERERS\' LAB” above the circle in bold font.',
+        'Step 30 — Path menu: use path commands to curve text around the circle.',
+        'Step 31 — Adjust letter spacing and text size for a balanced ring.',
+        'Step 32 — Flip tool: mirror objects to keep the layout symmetrical.',
+        'Step 33 — Add curved “INTERN” text along the top arc of the ring.',
+        'Step 34 — Add a red outer ring around the blue center circle.',
+        'Step 35 — Align and group all logo parts into one object.',
+        'Step 36 — Export the logo as PNG/SVG (File → Export or Save As).',
+        'Step 37 — Final result: Tinkerers\' Lab badge placed on the profile photo.',
+    ];
+
+    const images = captions.map((caption, i) => ({
+        id: `w1-day2-img-${String(i + 1).padStart(2, '0')}`,
+        type: 'image',
+        src: `${base}${String(i + 1).padStart(2, '0')}.png`,
+        caption,
+        createdAt: `2026-05-22T${String(10 + Math.floor(i / 6)).padStart(2, '0')}:${String((i * 2) % 60).padStart(2, '0')}:00.000Z`,
+    }));
+
+    return [
+        {
+            id: 'w1-day2-intro',
+            type: 'project',
+            title: 'Week 1 — Day 2: Inkscape & Logo Design',
+            description:
+                'Day 2 focused on vector graphics for the internship portfolio. I downloaded and installed Inkscape, learned basic tools (shapes, text, paths, flip), designed a circular Tinkerers\' Lab / INTERN badge, exported it as an image, and composited it onto my profile photo for the portfolio sidebar.',
+            createdAt: '2026-05-22T10:00:00.000Z',
+        },
+        {
+            id: 'w1-day2-learning',
+            type: 'learning',
+            topic: 'Inkscape vector design',
+            machine: 'Inkscape 1.4.4, GIMP (optional)',
+            concept:
+                'Vector graphics use paths and shapes that scale without losing quality. Inkscape is free and open source — ideal for logos. Text-on-path, grouping, and export (PNG/SVG) are essential steps before using the logo on a website or photo.',
+            createdAt: '2026-05-22T10:05:00.000Z',
+        },
+        ...images,
+    ];
+}
+
+function buildWeek1AllEntries() {
+    return [...buildWeek1GithubEntries(), ...buildWeek1Day2Entries()];
+}
+
 const DEFAULT_DATA = {
     profileImage: null,
     aboutExtra: '',
@@ -101,7 +177,7 @@ const DEFAULT_DATA = {
         },
     ],
     weeks: [
-        { id: 'w1', label: 'Week 1', expanded: true, entries: buildWeek1GithubEntries() },
+        { id: 'w1', label: 'Week 1', expanded: true, entries: buildWeek1AllEntries() },
         { id: 'w2', label: 'Week 2', expanded: false, entries: [] },
         { id: 'w3', label: 'Week 3', expanded: false, entries: [] },
         { id: 'w4', label: 'Week 4', expanded: false, entries: [] },
@@ -136,14 +212,14 @@ function mergeDefaults(parsed) {
         })),
         weeks: (parsed.weeks?.length === 4 ? parsed.weeks : base.weeks).map((week, index) => {
             if (index !== 0) return week;
-            const entries = week.entries ?? [];
-            const hasIntro = entries.some((e) => e.id === 'w1-github-intro');
-            if (hasIntro) return { ...week, expanded: week.expanded ?? true };
-            return {
-                ...week,
-                expanded: true,
-                entries: [...buildWeek1GithubEntries(), ...entries],
-            };
+            let entries = week.entries ?? [];
+            if (!entries.some((e) => e.id === 'w1-github-intro')) {
+                entries = [...buildWeek1GithubEntries(), ...entries];
+            }
+            if (!entries.some((e) => e.id === 'w1-day2-intro')) {
+                entries = [...entries, ...buildWeek1Day2Entries()];
+            }
+            return { ...week, expanded: week.expanded ?? true, entries };
         }),
     };
 }
@@ -359,7 +435,7 @@ function renderEntry(entry) {
             break;
         case 'project':
             body =
-                entry.id === 'w1-github-intro'
+                entry.id === 'w1-github-intro' || entry.id === 'w1-day2-intro'
                     ? `<h3 class="week-section-heading">${escapeHtml(entry.title)}</h3><p>${escapeHtml(entry.description)}</p>`
                     : `<p><strong>${escapeHtml(entry.title)}</strong></p><p>${escapeHtml(entry.description)}</p>`;
             break;
