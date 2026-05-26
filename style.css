@@ -572,6 +572,12 @@ body {
     margin-top: 2.5rem;
 }
 
+.log-entry[data-id="w1-day3-intro"] {
+    border-left-color: #06b6d4;
+    border-left-width: 5px;
+    margin-top: 2.5rem;
+}
+
 .log-entry-body .image-caption {
     line-height: 1.55;
     max-width: 52rem;

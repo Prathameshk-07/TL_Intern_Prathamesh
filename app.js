@@ -1,5 +1,5 @@
 const STORAGE_KEY = 'tinkerer-portfolio-v1';
-const WEEK1_CONTENT_VERSION = '2';
+const WEEK1_CONTENT_VERSION = '3';
 const WEEK1_CONTENT_VERSION_KEY = 'week1-content-v';
 const DEFAULT_PROFILE_SRC = 'assets/profile-photo.png';
 const MAX_FILE_SIZE = 5 * 1024 * 1024; /* 5 MB per file — localStorage limit */
@@ -200,8 +200,74 @@ function buildWeek1Day2Entries() {
     ];
 }
 
+function buildWeek1Day3Entries() {
+    const base = 'assets/week1-day3-fusion/';
+    const captions = [
+        'Day 3 · Step 1 — Open Google and search “autodesk fusion 360 student version” to find the free educational license.',
+        'Day 3 · Step 2 — Open the Autodesk Fusion for education page (autodesk.com/education/.../fusion) and click Sign in (top-right).',
+        'Day 3 · Step 3 — Autodesk Sign in screen: enter your email and click Next (or Continue with Google).',
+        'Day 3 · Step 4 — Fusion for education page while signed in (profile PK) — ready to request student access.',
+        'Day 3 · Step 5 — Click the yellow Request free access button to start the educational license application.',
+        'Day 3 · Step 6 — Autodesk Education overview page: open Products to browse software available to students.',
+        'Day 3 · Step 7 — All products grid: click Select on the Fusion card (cloud CAD/CAM/CAE for 3D modeling).',
+        'Day 3 · Step 8 — Subscription plans: choose the Student role, then click Access products.',
+        'Day 3 · Step 9 — Autodesk Fusion product page: use Download free trial or Download Fusion for free.',
+        'Day 3 · Step 10 — In your Autodesk account (Add products), click Download on the Fusion card to get the installer.',
+        'Day 3 · Step 11 — Save As: save Fusion Client Downloader.exe into Documents, then click Save.',
+        'Day 3 · Step 12 — Autodesk Application Installer: Fusion splash with Running pre-checks at 100%.',
+        'Day 3 · Step 13 — Fusion launch screen: Loading additional modules while the app starts.',
+        'Day 3 · Step 14 — New design dialog: select Part Design, set units to millimeter (mm), gram (g), then Create New.',
+        'Day 3 · Step 15 — Empty Fusion workspace (SOLID tab): click Create Sketch to begin a 2D profile.',
+        'Day 3 · Step 16 — Pick a sketch plane: select the horizontal XY plane at the origin (tooltip: Select a plane or planar face).',
+        'Day 3 · Step 17 — Sketch mode: use the Line tool to draw straight edges on the grid (units in mm).',
+        'Day 3 · Step 18 — Draw a 100 mm horizontal line from the origin and add a dimension so the sketch is fully defined.',
+        'Day 3 · Step 19 — Select the Fit Point Spline tool to draw smooth curved edges for the vase profile.',
+        'Day 3 · Step 20 — Place spline control points and shape an S-curve on the sketch plane.',
+        'Day 3 · Step 21 — Complete the closed profile: straight axis on the Y-axis, top/bottom horizontals, curved spline on the right (blue fill).',
+        'Day 3 · Step 22 — Click Finish Sketch (green check) to exit sketch mode and prepare for 3D tools.',
+        'Day 3 · Step 23 — Return to the design workspace with the closed profile visible on the grid.',
+        'Day 3 · Step 24 — SOLID tab → Revolve: open the Revolve tool with the closed profile selected.',
+        'Day 3 · Step 25 — Revolve dialog: Profile shows 1 selected; next pick the vertical axis line to rotate around.',
+        'Day 3 · Step 26 — After Revolve (360°): symmetrical 3D vase body with metallic appearance on the grid.',
+        'Day 3 · Step 27 — Explore the Sheet Metal workspace (Flange tool) — optional tab for sheet-metal parts.',
+        'Day 3 · Step 28 — Shell tool: select the top circular face to remove (open the vessel).',
+        'Day 3 · Step 29 — Set Inside Thickness to 2 mm and Direction Inside to hollow the solid body.',
+        'Day 3 · Step 30 — Confirm the Shell settings and click OK to apply the 2 mm wall thickness.',
+        'Day 3 · Step 31 — Finished model: hollow vase with revolved body, shell, and design timeline (Sketch → Revolve → Shell).',
+    ];
+
+    const images = captions.map((caption, i) => ({
+        id: `w1-day3-img-${String(i + 1).padStart(2, '0')}`,
+        type: 'image',
+        src: `${base}${String(i + 1).padStart(2, '0')}.png`,
+        caption,
+        createdAt: `2026-05-25T${String(10 + Math.floor(i / 6)).padStart(2, '0')}:${String((i * 2) % 60).padStart(2, '0')}:00.000Z`,
+    }));
+
+    return [
+        {
+            id: 'w1-day3-intro',
+            type: 'project',
+            title: 'Week 1 — Day 3: Autodesk Fusion 360',
+            description:
+                'Day 3 introduced 3D CAD with Autodesk Fusion (education license). I searched for the student version, signed in on the Autodesk Education site, requested free access, downloaded Fusion Client Downloader, installed the software, started a Part Design in millimeters, created a 2D sketch (lines + Fit Point Spline), used Revolve to build a vase-shaped solid, then applied Shell (2 mm inside) to hollow the top opening.',
+            createdAt: '2026-05-25T10:00:00.000Z',
+        },
+        {
+            id: 'w1-day3-learning',
+            type: 'learning',
+            topic: 'Autodesk Fusion 360 — 3D modeling basics',
+            machine: 'Autodesk Fusion (Education License), Windows',
+            concept:
+                '3D parts start as constrained 2D sketches on a plane. Revolve spins a closed profile around an axis to make symmetrical solids (vases, wheels). Shell removes a face and sets wall thickness — useful for containers and 3D-printed parts. Always set document units (mm) before dimensioning.',
+            createdAt: '2026-05-25T10:05:00.000Z',
+        },
+        ...images,
+    ];
+}
+
 function buildWeek1AllEntries() {
-    return [...buildWeek1GithubEntries(), ...buildWeek1Day2Entries()];
+    return [...buildWeek1GithubEntries(), ...buildWeek1Day2Entries(), ...buildWeek1Day3Entries()];
 }
 
 const DEFAULT_DATA = {
