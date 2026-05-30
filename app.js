@@ -1,6 +1,8 @@
 const STORAGE_KEY = 'tinkerer-portfolio-v1';
 const WEEK1_CONTENT_VERSION = '3';
 const WEEK1_CONTENT_VERSION_KEY = 'week1-content-v';
+const WEEK2_CONTENT_VERSION = '1';
+const WEEK2_CONTENT_VERSION_KEY = 'week2-content-v';
 const DEFAULT_PROFILE_SRC = 'assets/profile-photo.png';
 const MAX_FILE_SIZE = 5 * 1024 * 1024; /* 5 MB per file — localStorage limit */
 
@@ -270,6 +272,55 @@ function buildWeek1AllEntries() {
     return [...buildWeek1GithubEntries(), ...buildWeek1Day2Entries(), ...buildWeek1Day3Entries()];
 }
 
+function buildWeek2Day5Entries() {
+    const base = 'assets/week2-day5-wokwi/';
+    const captions = [
+        'Day 5 · Step 1 — Google search for “wokwi”. Suggestions include wokwi.com, ESP32 simulator, Arduino simulator, and led blink projects.',
+        'Day 5 · Step 2 — Yahoo search for “wowki” (typo). Click wokwi.com — “World’s most advanced ESP32 Simulator” to open the official site.',
+        'Day 5 · Step 3 — Wokwi homepage (wokwi.com). Tagline: world’s most advanced ESP32 simulator. Click SIGN UP (top-right) to create an account.',
+        'Day 5 · Step 4 — Welcome to Wokwi sign-in modal. Choose Continue with Google to log in quickly (also available: GitHub or Email).',
+        'Day 5 · Step 5 — Simulate with Wokwi Online: pick according to yourself. Now i am Takeing  the ESP32 board (black DevKit) to start a microcontroller simulation project.',
+        'Day 5 · Step 6 — Starter Templates grid: select the standard ESP32 template (not S2/S3/C3) for a blank DevKit V1 project.',
+        'Day 5 · Step 7 — New ESP32 project opens. Left: sketch.ino with default Hello code (Serial.begin 115200, prints “Hello, ESP32!”). Right: simulation canvas still loading the board.',
+        'Day 5 · Step 8 — Wokwi workspace overview: sketch.ino / diagram.json tabs on the left; simulation toolbar with Play (run), + (add parts), and ⋮ (more options) on the right.',
+        'Day 5 · Step 9 — Click the blue + button on the simulation toolbar to open the component library and add parts to the circuit.',
+        'Day 5 · Step 10 — Component picker (Basic category): search or scroll and select LED — a red LED will appear on the canvas next to the ESP32.',
+        'Day 5 · Step 11 — Wire the circuit: GPIO D14 → LED anode (long leg) → 220 Ω resistor (red-red-brown-gold) → GND. Green wires show the connections in the diagram.',
+        'Day 5 · Step 12 — Write the Blink sketch in sketch.ino: pinMode(14, OUTPUT); in loop() use digitalWrite(14, HIGH), delay(1000), digitalWrite(14, LOW), delay(1000) to toggle the LED every second.',
+        'Day 5 · Step 13 — Circuit and code ready. Click the green Play button (top-left of simulation) to start the virtual hardware and run the program.',
+        'Day 5 · Step 14 — Simulation running (~10.8 s): red LED is ON (glowing), timer counting, serial monitor shows ESP32 boot messages — blink program works in Wokwi.',
+    ];
+
+    const images = captions.map((caption, i) => ({
+        id: `w2-day5-img-${String(i + 1).padStart(2, '0')}`,
+        type: 'image',
+        src: `${base}${String(i + 1).padStart(2, '0')}.png`,
+        caption,
+        createdAt: `2026-05-30T${String(16 + Math.floor(i / 5)).padStart(2, '0')}:${String(21 + (i * 2) % 40).padStart(2, '0')}:00.000Z`,
+    }));
+
+    return [
+        {
+            id: 'w2-day5-intro',
+            type: 'project',
+            title: 'Week 2 — Day 5: Wokwi & ESP32 LED Blink',
+            description:
+                'Day 5 introduced browser-based electronics simulation with Wokwi. I found and signed up on wokwi.com, chose the ESP32 platform, opened a new project, added an LED and 220 Ω resistor, wired GPIO 14 to the LED and ground, wrote a Blink program in sketch.ino (pinMode + digitalWrite + delay), and ran the simulation — the virtual LED toggled on and off with serial output from the ESP32.',
+            createdAt: '2026-05-30T16:20:00.000Z',
+        },
+        {
+            id: 'w2-day5-learning',
+            type: 'learning',
+            topic: 'Wokwi simulator & ESP32 GPIO',
+            machine: 'Wokwi (browser), ESP32 DevKit V1, Arduino framework (sketch.ino)',
+            concept:
+                'Wokwi lets you build and test circuits without physical hardware. An LED needs a current-limiting resistor. GPIO pins are set OUTPUT with pinMode(); digitalWrite(HIGH/LOW) drives the pin. delay(ms) pauses the loop so humans can see the blink. Always connect LED cathode through resistor to GND.',
+            createdAt: '2026-05-30T16:21:00.000Z',
+        },
+        ...images,
+    ];
+}
+
 const DEFAULT_DATA = {
     profileImage: null,
     aboutExtra: '',
@@ -309,7 +360,7 @@ const DEFAULT_DATA = {
     ],
     weeks: [
         { id: 'w1', label: 'Week 1', expanded: true, entries: buildWeek1AllEntries() },
-        { id: 'w2', label: 'Week 2', expanded: false, entries: [] },
+        { id: 'w2', label: 'Week 2', expanded: true, entries: buildWeek2Day5Entries() },
         { id: 'w3', label: 'Week 3', expanded: false, entries: [] },
         { id: 'w4', label: 'Week 4', expanded: false, entries: [] },
     ],
@@ -330,11 +381,21 @@ function applyWeek1ContentVersion(state) {
         };
     }
     localStorage.setItem(WEEK1_CONTENT_VERSION_KEY, WEEK1_CONTENT_VERSION);
-    try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    } catch (_) {
-        /* ignore quota on version bump */
+    return state;
+}
+
+function applyWeek2ContentVersion(state) {
+    if (localStorage.getItem(WEEK2_CONTENT_VERSION_KEY) === WEEK2_CONTENT_VERSION) {
+        return state;
     }
+    if (state.weeks?.[1]) {
+        state.weeks[1] = {
+            ...state.weeks[1],
+            expanded: true,
+            entries: buildWeek2Day5Entries(),
+        };
+    }
+    localStorage.setItem(WEEK2_CONTENT_VERSION_KEY, WEEK2_CONTENT_VERSION);
     return state;
 }
 
@@ -343,13 +404,22 @@ function loadState() {
         const raw = localStorage.getItem(STORAGE_KEY);
         if (raw) {
             const parsed = JSON.parse(raw);
-            return applyWeek1ContentVersion(mergeDefaults(parsed));
+            let merged = mergeDefaults(parsed);
+            merged = applyWeek1ContentVersion(merged);
+            merged = applyWeek2ContentVersion(merged);
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
+            } catch (_) {
+                /* ignore quota on version bump */
+            }
+            return merged;
         }
     } catch (_) {
         /* use defaults */
     }
     const fresh = structuredClone(DEFAULT_DATA);
     localStorage.setItem(WEEK1_CONTENT_VERSION_KEY, WEEK1_CONTENT_VERSION);
+    localStorage.setItem(WEEK2_CONTENT_VERSION_KEY, WEEK2_CONTENT_VERSION);
     return fresh;
 }
 
