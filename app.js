@@ -3,6 +3,8 @@ const WEEK1_CONTENT_VERSION = '4';
 const WEEK1_CONTENT_VERSION_KEY = 'week1-content-v';
 const WEEK2_CONTENT_VERSION = '6';
 const WEEK2_CONTENT_VERSION_KEY = 'week2-content-v';
+const WEEK3_CONTENT_VERSION = '1';
+const WEEK3_CONTENT_VERSION_KEY = 'week3-content-v';
 const WEEK4_CONTENT_VERSION = '2';
 const WEEK4_CONTENT_VERSION_KEY = 'week4-content-v';
 const DAYS_PER_WEEK = 6;
@@ -415,6 +417,51 @@ function buildWeek2Day5Entries() {
     ];
 }
 
+function buildWeek3Day1Entries() {
+    const base = 'assets/week3-day1-esp32/';
+    return [
+        {
+            id: 'w3-day1-intro',
+            type: 'project',
+            title: 'Week 3 — Day 1: ESP32 Architecture & Memory Map',
+            description:
+                'Day 1 of Week 3 focused on understanding the ESP32 internals before writing firmware. I studied the ESP32 memory map — how the same physical memory is reached through the instruction bus (I-bus) and data bus (D-bus) at mirrored addresses — and reviewed the ESP32-S3 SoC block diagram to see how the Xtensa dual-core processor, wireless MAC/baseband, RF, peripherals, RTC, and security blocks fit together.',
+            createdAt: '2026-06-01T10:00:00.000Z',
+        },
+        {
+            id: 'w3-day1-learning',
+            type: 'learning',
+            topic: 'ESP32 memory map — I-bus vs D-bus',
+            machine: 'ESP32 (Xtensa LX6/LX7), ROM / SRAM / RTC / cached flash & PSRAM',
+            concept:
+                'The ESP32 uses a Harvard-style split where code is fetched over the instruction bus (I-bus) and data is accessed over the data bus (D-bus). Internal memory includes ROM0/ROM1 (boot & ROM routines), SRAM0/SRAM1/SRAM2 for code and data, and RTCFAST/RTCSLOW that stay powered in deep sleep. The I-bus and D-bus address ranges are reversed mirrors of the same SRAM, so the same data appears at different addresses on each bus. External flash and PSRAM are reached through I-cache / D-cache windows. Knowing these regions explains where code, the heap, RTC-retained variables, and memory-mapped flash live.',
+            createdAt: '2026-06-01T10:01:00.000Z',
+        },
+        {
+            id: 'w3-day1-img-01',
+            type: 'image',
+            src: `${base}01-esp32-memory-map.png`,
+            caption:
+                'ESP32 memory map — I-bus (left) and D-bus (right) address ranges for ROM0/ROM1, SRAM0/SRAM1/SRAM2, RTCFAST/RTCSLOW, and the cached D-cache (flash/PSRAM) and I-cache windows. Note how the I-bus and D-bus address space have reversed order for the shared SRAM regions.',
+            createdAt: '2026-06-01T10:02:00.000Z',
+        },
+        {
+            id: 'w3-day1-img-02',
+            type: 'image',
+            src: `${base}02-esp32-s3-block-diagram.png`,
+            caption:
+                'Espressif ESP32-S3 Wi-Fi + Bluetooth LE SoC block diagram — Core System (Xtensa dual-core 32-bit LX7, cache, SRAM, JTAG, ROM), Wireless MAC & Baseband, RF, Peripherals (SPI, I2C, I2S, UART, GPIO, ADC, USB OTG, etc.), RTC, and Security (SHA, RSA, AES, RNG, Secure Boot, Flash Encryption).',
+            createdAt: '2026-06-01T10:03:00.000Z',
+        },
+    ];
+}
+
+function buildWeek3AllEntries() {
+    return [
+        ...tagEntriesWithDay(buildWeek3Day1Entries(), 1),
+    ];
+}
+
 const DEFAULT_DATA = {
     profileImage: null,
     aboutExtra: '',
@@ -455,7 +502,7 @@ const DEFAULT_DATA = {
     weeks: [
         { id: 'w1', label: 'Week 1', expanded: true, entries: buildWeek1AllEntries() },
         { id: 'w2', label: 'Week 2', expanded: true, entries: buildWeek2AllEntries() },
-        { id: 'w3', label: 'Week 3', expanded: false, entries: [] },
+        { id: 'w3', label: 'Week 3', expanded: true, entries: buildWeek3AllEntries() },
         { id: 'w4', label: 'Week 4', expanded: false, entries: [] },
     ],
 };
@@ -493,6 +540,21 @@ function applyWeek2ContentVersion(state) {
     return state;
 }
 
+function applyWeek3ContentVersion(state) {
+    if (localStorage.getItem(WEEK3_CONTENT_VERSION_KEY) === WEEK3_CONTENT_VERSION) {
+        return state;
+    }
+    if (state.weeks?.[2]) {
+        state.weeks[2] = {
+            ...state.weeks[2],
+            expanded: true,
+            entries: buildWeek3AllEntries(),
+        };
+    }
+    localStorage.setItem(WEEK3_CONTENT_VERSION_KEY, WEEK3_CONTENT_VERSION);
+    return state;
+}
+
 function applyWeek4ContentVersion(state) {
     if (localStorage.getItem(WEEK4_CONTENT_VERSION_KEY) === WEEK4_CONTENT_VERSION) {
         return state;
@@ -516,6 +578,7 @@ function loadState() {
             let merged = mergeDefaults(parsed);
             merged = applyWeek1ContentVersion(merged);
             merged = applyWeek2ContentVersion(merged);
+            merged = applyWeek3ContentVersion(merged);
             merged = applyWeek4ContentVersion(merged);
             try {
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
@@ -530,6 +593,7 @@ function loadState() {
     const fresh = structuredClone(DEFAULT_DATA);
     localStorage.setItem(WEEK1_CONTENT_VERSION_KEY, WEEK1_CONTENT_VERSION);
     localStorage.setItem(WEEK2_CONTENT_VERSION_KEY, WEEK2_CONTENT_VERSION);
+    localStorage.setItem(WEEK3_CONTENT_VERSION_KEY, WEEK3_CONTENT_VERSION);
     localStorage.setItem(WEEK4_CONTENT_VERSION_KEY, WEEK4_CONTENT_VERSION);
     return fresh;
 }
