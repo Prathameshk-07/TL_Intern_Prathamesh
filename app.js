@@ -1,8 +1,11 @@
 const STORAGE_KEY = 'tinkerer-portfolio-v1';
-const WEEK1_CONTENT_VERSION = '3';
+const WEEK1_CONTENT_VERSION = '4';
 const WEEK1_CONTENT_VERSION_KEY = 'week1-content-v';
-const WEEK2_CONTENT_VERSION = '1';
+const WEEK2_CONTENT_VERSION = '6';
 const WEEK2_CONTENT_VERSION_KEY = 'week2-content-v';
+const WEEK4_CONTENT_VERSION = '2';
+const WEEK4_CONTENT_VERSION_KEY = 'week4-content-v';
+const DAYS_PER_WEEK = 6;
 const DEFAULT_PROFILE_SRC = 'assets/profile-photo.png';
 const MAX_FILE_SIZE = 5 * 1024 * 1024; /* 5 MB per file — localStorage limit */
 
@@ -268,8 +271,99 @@ function buildWeek1Day3Entries() {
     ];
 }
 
+function tagEntriesWithDay(entries, day) {
+    return entries.map((entry) => ({ ...entry, day }));
+}
+
 function buildWeek1AllEntries() {
-    return [...buildWeek1GithubEntries(), ...buildWeek1Day2Entries(), ...buildWeek1Day3Entries()];
+    return [
+        ...tagEntriesWithDay(buildWeek1GithubEntries(), 1),
+        ...tagEntriesWithDay(buildWeek1Day2Entries(), 2),
+        ...tagEntriesWithDay(buildWeek1Day3Entries(), 3),
+    ];
+}
+
+function buildWeek2Day1Entries() {
+    const base = 'assets/week2-day1-lasercad/';
+    const captions = [
+        'Day 1 · Step 1 — Google search for “lasercad software”. Suggestions include download links, tutorials, and free versions for laser cutting control software.',
+        'Day 1 · Step 2 — Search “lasercad software v8 28” and open sztrocen.com (Shenzhen Trocen Automation) — the manufacturer of LaserCAD for laser engraving and cutting systems.',
+        'Day 1 · Step 3 — On the Trocen Software page, select LaserCAD V8.28.18.rar (highlighted) — the correct package for our lab laser controller.',
+        'Day 1 · Step 4 — Save As: store LaserCAD V8.28.18 (compressed archive) in Documents from sztrocen.com support page before extracting.',
+        'Day 1 · Step 5 — After extracting the .rar file, open the folder and double-click Setup (application ~207 MB) to start the LaserCAD installer.',
+        'Day 1 · Step 6 — “Welcome to use” installer: Type = LaserCAD, Language = English (green arrow). Use Install USB Driver if the PC has not seen the machine before.',
+        'Day 1 · Step 7 — Same installer window: click Install to begin copying LaserCAD files (USB driver can be installed from the top button first).',
+        'Day 1 · Step 8 — Select install path dialog: CorelDraw Version = CorelDraw 12, Install Path = C:\\ — click OK to register the CorelDraw plugin path.',
+        'Day 1 · Step 9 — Desktop shortcut created: LaserCAD V8.28 (Trocen logo). Double-click to open the laser control software.',
+        'Day 1 · Step 10 — LaserCAD V8.28.7 opens: blank workspace 1200 × 900 mm, Communication Mode COM3, Layer Options and Machine Control panel on the right.',
+        'Day 1 · Step 11 — LaserCAD left Draw toolbar (green arrow): click the Ellipse/Circle tool (oval icon) under Rectangle and above Text (A). Top bar shows bed size 1200 × 900 mm.',
+        'Day 1 · Step 12 — LaserCAD canvas: drag the Ellipse tool to draw a horizontal oval with a red outline. Black corner handles show the shape is selected on the bed.',
+        'Day 1 · Step 13 — LaserCAD left Draw toolbar (green arrow): click the Text tool — “A” icon directly below the Ellipse tool — to add lettering on the nameplate.',
+        'Day 1 · Step 14 — LaserCAD Text → Edit Text window: choose TrueType Font, Adobe Heiti Std R, size 8.0, type “Prathamesh”, then click OK.',
+        'Day 1 · Step 15 — LaserCAD bottom toolbar: layer colour palette (row of squares). Pink layer is selected (blue border) — each colour links to Cut/Engrave settings in Layer Options.',
+        'Day 1 · Step 16 — In LaserCAD: nameplate on the bed — black oval outline with “Prathamesh” inside. Layer set to Cut, Speed 100, Power 50, machine COM3.',
+        'Day 1 · Step 17 — Layer Parameters (black layer): Work Mode = Cut, Speed 100.00, Max Power 50% / Min Power 40% (green highlight) — balances cut depth on corners.',
+        'Day 1 · Step 18 — Work Mode dropdown: choose Cut (other options: Engrave, Engrave + Cut, Hole, Pen). Air Assist unchecked for this test.',
+        'Day 1 · Step 19 — Two layers: black oval = Cut (100 / 50); blue text “Prathamesh” = Engrave (180 / 30) — outline is cut through, name is surface-etched only.',
+        'Day 1 · Step 20 — Control panel: Communication MachName COM3 — click Select Mode (green arrow) to confirm the PC talks to the laser controller.',
+        'Day 1 · Step 21 — USB Mode device list: click Add to register the machine on the correct COM port (COM3, COM13, etc.) when multiple ports appear.',
+        'Day 1 · Step 22 — Machine Control: highlight Download (sends job to controller) and USB Mode → Add for a new COM connection before running.',
+        'Day 1 · Step 23 — Download Document dialog: file name “dress”, Work times 1, Re-Order Objects checked — click Download Document to load the job into machine memory.',
+    ];
+
+    const images = captions.map((caption, i) => ({
+        id: `w2-day1-img-${String(i + 1).padStart(2, '0')}`,
+        type: 'image',
+        src: `${base}${String(i + 1).padStart(2, '0')}.png`,
+        caption,
+        createdAt: `2026-05-30T${String(16 + Math.floor(i / 8)).padStart(2, '0')}:${String(57 + (i * 2) % 60).padStart(2, '0')}:00.000Z`,
+    }));
+
+    return [
+        {
+            id: 'w2-day1-intro',
+            type: 'project',
+            title: 'Week 2 — Day 1: LaserCAD & Laser Cutting Setup',
+            description:
+                'Day 1 covered laser cutter software from install to first job. I searched for and downloaded LaserCAD V8.28.18 from Trocen (sztrocen.com), ran Setup and the USB driver installer, linked CorelDraw 12, and opened LaserCAD (1200 × 900 mm bed, COM3). I drew the nameplate in LaserCAD using the left Draw toolbar (Ellipse + Text “A”) and the bottom layer colour bar, set Cut/Engrave layers, tuned speed and power, connected via USB COM3, and used Download Document to send the file to the machine.',
+            createdAt: '2026-05-30T16:55:00.000Z',
+        },
+        {
+            id: 'w2-day1-learning',
+            type: 'learning',
+            topic: 'LaserCAD & laser job parameters',
+            machine: 'CO₂ laser cutter (Trocen controller), LaserCAD V8.28',
+            concept:
+                'In LaserCAD, the left Draw toolbar has Ellipse and Text (A) for shapes and labels; the bottom colour bar assigns layer colours for Cut vs Engrave. Cut uses higher power to go through material; Engrave uses lower power for surface marking. Use the SIL lab chart (below) to pick speed and power for each material and thickness. Verify COM port, set Origin, use Run Box, then Download before Start.',
+            createdAt: '2026-05-30T16:56:00.000Z',
+        },
+        ...images.slice(0, 19),
+        {
+            id: 'w2-day1-params-learning',
+            type: 'learning',
+            topic: 'SIL laser parameter chart — speed, power & mode by material',
+            machine: 'CO₂ laser cutter (SIL), water chiller — start before machine; change water every 15 days',
+            concept:
+                'Reference chart used with LaserCAD Layer Parameters. Acrylic CUT: thicker acrylic needs lower speed and higher power (2 mm → speed 22–24, power 45–50; 18 mm → speed 1–2, power 90–95). Acrylic engrave: SCAN, speed 280–300, power 12–20. Also covers glass, leather, marble (SCAN), MDF (2–4 mm CUT), cardboard, paper, and thermocol. Wood tip: increase power and keep speed below 25.',
+            createdAt: '2026-06-01T15:00:00.000Z',
+        },
+        {
+            id: 'w2-day1-img-24',
+            type: 'image',
+            src: `${base}24-sil-acrylic-cutting-chart.png`,
+            caption:
+                'SIL acrylic cutting chart — lab cheat sheet for LaserCAD: speed, power, and mode (CUT / SCAN) vs material thickness. Chiller note at top; wood adjustment tip at bottom.',
+            createdAt: '2026-06-01T15:01:00.000Z',
+        },
+        ...images.slice(19),
+    ];
+}
+
+function buildWeek2AllEntries() {
+    return [
+        ...tagEntriesWithDay(buildWeek2Day1Entries(), 1),
+        ...tagEntriesWithDay(buildWeek2Day5Entries(), 5),
+    ];
 }
 
 function buildWeek2Day5Entries() {
@@ -360,7 +454,7 @@ const DEFAULT_DATA = {
     ],
     weeks: [
         { id: 'w1', label: 'Week 1', expanded: true, entries: buildWeek1AllEntries() },
-        { id: 'w2', label: 'Week 2', expanded: true, entries: buildWeek2Day5Entries() },
+        { id: 'w2', label: 'Week 2', expanded: true, entries: buildWeek2AllEntries() },
         { id: 'w3', label: 'Week 3', expanded: false, entries: [] },
         { id: 'w4', label: 'Week 4', expanded: false, entries: [] },
     ],
@@ -392,10 +486,25 @@ function applyWeek2ContentVersion(state) {
         state.weeks[1] = {
             ...state.weeks[1],
             expanded: true,
-            entries: buildWeek2Day5Entries(),
+            entries: buildWeek2AllEntries(),
         };
     }
     localStorage.setItem(WEEK2_CONTENT_VERSION_KEY, WEEK2_CONTENT_VERSION);
+    return state;
+}
+
+function applyWeek4ContentVersion(state) {
+    if (localStorage.getItem(WEEK4_CONTENT_VERSION_KEY) === WEEK4_CONTENT_VERSION) {
+        return state;
+    }
+    if (state.weeks?.[3]) {
+        state.weeks[3] = {
+            ...state.weeks[3],
+            expanded: false,
+            entries: [],
+        };
+    }
+    localStorage.setItem(WEEK4_CONTENT_VERSION_KEY, WEEK4_CONTENT_VERSION);
     return state;
 }
 
@@ -407,6 +516,7 @@ function loadState() {
             let merged = mergeDefaults(parsed);
             merged = applyWeek1ContentVersion(merged);
             merged = applyWeek2ContentVersion(merged);
+            merged = applyWeek4ContentVersion(merged);
             try {
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
             } catch (_) {
@@ -420,6 +530,7 @@ function loadState() {
     const fresh = structuredClone(DEFAULT_DATA);
     localStorage.setItem(WEEK1_CONTENT_VERSION_KEY, WEEK1_CONTENT_VERSION);
     localStorage.setItem(WEEK2_CONTENT_VERSION_KEY, WEEK2_CONTENT_VERSION);
+    localStorage.setItem(WEEK4_CONTENT_VERSION_KEY, WEEK4_CONTENT_VERSION);
     return fresh;
 }
 
@@ -589,14 +700,49 @@ function renderProjects() {
         .join('');
 }
 
+function getEntryDay(entry) {
+    const day = Number(entry.day);
+    if (day >= 1 && day <= DAYS_PER_WEEK) return day;
+    const id = entry.id || '';
+    const match = id.match(/-day(\d+)-/i) || id.match(/day(\d+)/i);
+    if (match) {
+        const n = parseInt(match[1], 10);
+        if (n >= 1 && n <= DAYS_PER_WEEK) return n;
+    }
+    if (/github/i.test(id)) return 1;
+    return 1;
+}
+
+function groupEntriesByDay(entries) {
+    const groups = Object.fromEntries(Array.from({ length: DAYS_PER_WEEK }, (_, i) => [i + 1, []]));
+    for (const entry of entries) {
+        groups[getEntryDay(entry)].push(entry);
+    }
+    return groups;
+}
+
+function renderWeekDays(entries) {
+    const byDay = groupEntriesByDay(entries);
+    return Array.from({ length: DAYS_PER_WEEK }, (_, i) => {
+        const dayNum = i + 1;
+        const dayEntries = byDay[dayNum];
+        const dayBody =
+            dayEntries.length > 0
+                ? dayEntries.map((e) => renderEntry(e)).join('')
+                : '<p class="day-empty">No entries for this day yet.</p>';
+        return `
+        <section class="day-block" data-day="${dayNum}">
+            <h4 class="day-heading">Day ${dayNum}</h4>
+            <div class="day-entries">${dayBody}</div>
+        </section>`;
+    }).join('');
+}
+
 function renderWeeks() {
     const container = document.getElementById('weeks-container');
     container.innerHTML = state.weeks
         .map((week, index) => {
-            const entriesHtml =
-                week.entries.length === 0
-                    ? '<p class="week-empty">No entries yet. Use the buttons below to document this week.</p>'
-                    : week.entries.map((e) => renderEntry(e)).join('');
+            const entriesHtml = renderWeekDays(week.entries);
 
             return `
         <div class="week-block ${week.expanded ? 'expanded' : ''}" data-week="${index}">
@@ -649,7 +795,10 @@ function renderEntry(entry) {
         case 'project':
             body =
                 entry.id === 'w1-github-intro' ||
-                entry.id === 'w1-day2-intro'
+                entry.id === 'w1-day2-intro' ||
+                entry.id === 'w1-day3-intro' ||
+                entry.id === 'w2-day1-intro' ||
+                entry.id === 'w2-day5-intro'
                     ? `<h3 class="week-section-heading">${escapeHtml(entry.title)}</h3><p>${escapeHtml(entry.description)}</p>`
                     : `<p><strong>${escapeHtml(entry.title)}</strong></p><p>${escapeHtml(entry.description)}</p>`;
             break;
