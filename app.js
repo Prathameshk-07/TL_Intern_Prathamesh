@@ -3,6 +3,8 @@ const WEEK1_CONTENT_VERSION = '4';
 const WEEK1_CONTENT_VERSION_KEY = 'week1-content-v';
 const WEEK2_CONTENT_VERSION = '6';
 const WEEK2_CONTENT_VERSION_KEY = 'week2-content-v';
+const WEEK3_CONTENT_VERSION = '2';
+const WEEK3_CONTENT_VERSION_KEY = 'week3-content-v';
 const WEEK4_CONTENT_VERSION = '2';
 const WEEK4_CONTENT_VERSION_KEY = 'week4-content-v';
 const DAYS_PER_WEEK = 6;
@@ -415,6 +417,88 @@ function buildWeek2Day5Entries() {
     ];
 }
 
+function buildWeek3Day1Entries() {
+    const base = 'assets/week3-day1-esp32/';
+    return [
+        {
+            id: 'w3-day1-intro',
+            type: 'project',
+            title: 'Week 3 — Day 1: ESP32 Complete Documentation',
+            description:
+                'Day 1 introduces the Espressif ESP32 — a low-cost SoC with integrated Wi-Fi and Bluetooth for IoT and embedded projects. I studied the chip overview (successor to ESP8266), GPIO and analog peripherals, the ESP32-WROOM-32 pinout diagram, programming frameworks (Arduino, ESP-IDF, MicroPython, PlatformIO), family variants, development boards, and communication interface reference tables.',
+            createdAt: '2026-06-02T10:00:00.000Z',
+        },
+        {
+            id: 'w3-day1-learning-overview',
+            type: 'learning',
+            topic: 'What is the ESP32?',
+            machine: 'Espressif ESP32 SoC (Wi-Fi + Bluetooth microcontroller)',
+            concept:
+                'The ESP32 is a low-cost, low-power SoC from Espressif with Wi-Fi and Bluetooth on one chip — ideal for IoT, smart home, and sensor projects. It replaced the ESP8266 (2016) with a dual-core CPU, more GPIO, Bluetooth, and extra peripherals while staying affordable. Typical dev boards use the ESP32-WROOM-32 module (38 pins, 4 MB flash) on a breakout with USB‑serial and 3.3 V regulator.',
+            createdAt: '2026-06-02T10:05:00.000Z',
+        },
+        {
+            id: 'w3-day1-img-01',
+            type: 'image',
+            src: `${base}01-esp32-family-boards.png`,
+            caption:
+                'ESP32 family & common boards — Variants: original ESP32 (dual-core, Wi-Fi + BT 4.2), S2 (USB, more GPIO), S3 (240 MHz, BT 5, AI), C3/C6 (RISC-V), H2 (Zigbee/Thread, no Wi-Fi). Boards: DevKitC, NodeMCU-32S, WROOM/WROVER, TTGO, M5Stack, FireBeetle 2.',
+            createdAt: '2026-06-02T10:10:00.000Z',
+        },
+        {
+            id: 'w3-day1-learning-gpio',
+            type: 'learning',
+            topic: 'GPIO pins & analog features',
+            machine: 'ESP32 (34 programmable GPIO, multiplexed functions)',
+            concept:
+                '34 programmable GPIO pins (most multiplexed). Analog: ADC1 — 8 channels (GPIO32–39), usable with Wi-Fi on; ADC2 — 10 channels, not available when Wi-Fi is active; DAC — 8-bit on GPIO25 & GPIO26; 12-bit ADC (0–4095), 1.1 V internal reference; built-in Hall sensor. See GPIO Overview table below for PWM, touch, voltage, and current limits.',
+            createdAt: '2026-06-02T10:15:00.000Z',
+        },
+        {
+            id: 'w3-day1-img-03',
+            type: 'image',
+            src: `${base}03-gpio-overview.png`,
+            caption:
+                'GPIO Overview — 34 GPIO (0–39, some input-only); input-only: GPIO 34–39; 16 PWM channels; 18× 12-bit ADC (0–3.3 V); 2× 8-bit DAC (GPIO25, 26); 10 touch pins; 3.3 V logic (not 5 V tolerant); ~40 mA max per pin (12 mA recommended).',
+            createdAt: '2026-06-02T10:16:00.000Z',
+        },
+        {
+            id: 'w3-day1-img-02',
+            type: 'image',
+            src: `${base}02-communication-interfaces.png`,
+            caption:
+                'Communication interfaces — 3× UART; 4× SPI (2 for general use); 2× I2C; 2× I2S; 1× CAN 2.0; SD/SDIO/MMC host; Ethernet MAC (external PHY); IR remote TX/RX.',
+            createdAt: '2026-06-02T10:20:00.000Z',
+        },
+        {
+            id: 'w3-day1-learning-pinout',
+            type: 'learning',
+            topic: 'ESP32-WROOM-32 pinout (38-pin module)',
+            machine: 'ESP32-WROOM-32 module on DevKit / NodeMCU-32S (Last Minute Engineers pinout)',
+            concept:
+                'The WROOM-32 module exposes 38 pins around the metal shield. Power: 3V3 and GND (never apply 5 V to GPIO). EN resets the chip. Colour legend: purple = GPIO, orange = ADC, yellow = DAC, teal = touch, green/blue = UART/SPI/I2C. UART0 for USB programming is usually GPIO1 (TX) and GPIO3 (RX). I2C defaults often GPIO21 (SDA) and GPIO22 (SCL). HSPI vs VSPI: GPIO12–14, 18–23. GPIO34–39 are input-only (good for sensors). GPIO6–11 connect to internal flash — avoid using them. Strapping pins GPIO0 and GPIO2 affect boot mode (keep high for normal run). Always check the board silkscreen — pin order differs between DevKit and NodeMCU.',
+            createdAt: '2026-06-02T10:22:00.000Z',
+        },
+        {
+            id: 'w3-day1-img-04',
+            type: 'image',
+            src: `${base}04-esp32-wroom-32-pinout.png`,
+            caption:
+                'ESP32-WROOM-32 pinout diagram (38 pins) — colour-coded functions: power (3V3, GND), EN, GPIO, ADC, DAC, touch, UART, SPI, I2C. Left side: ADC1 input-only pins 34–39; GPIO25/26 DAC; bottom: HSPI and flash pins; right: UART0 (GPIO1/3), I2C (GPIO21/22), VSPI. Pin 32 = NC on this module.',
+            createdAt: '2026-06-02T10:23:00.000Z',
+        },
+        {
+            id: 'w3-day1-learning-frameworks',
+            type: 'learning',
+            topic: 'Programming & development frameworks',
+            machine: 'Arduino IDE, ESP-IDF, MicroPython, PlatformIO (VS Code)',
+            concept:
+                '1) Arduino IDE — easiest start; add board manager URL https://dl.espressif.com/dl/package_esp32_index.json, pick “ESP32 Dev Module”, upload sketches like Arduino. 2) ESP-IDF — Espressif’s official C/C++ SDK with FreeRTOS, deep Wi-Fi/BLE control, and power saving — best for shipping products. 3) MicroPython — run Python on the chip; great for quick tests and education. 4) PlatformIO — VS Code plugin; manages libraries, multiple boards, and serial monitor in one place. Tip: match the board profile to your module (WROOM-32 vs S3/C3) so pin maps stay correct.',
+            createdAt: '2026-06-02T10:25:00.000Z',
+        },
+    ];
+}
+
 const DEFAULT_DATA = {
     profileImage: null,
     aboutExtra: '',
@@ -455,7 +539,7 @@ const DEFAULT_DATA = {
     weeks: [
         { id: 'w1', label: 'Week 1', expanded: true, entries: buildWeek1AllEntries() },
         { id: 'w2', label: 'Week 2', expanded: true, entries: buildWeek2AllEntries() },
-        { id: 'w3', label: 'Week 3', expanded: false, entries: [] },
+        { id: 'w3', label: 'Week 3', expanded: true, entries: tagEntriesWithDay(buildWeek3Day1Entries(), 1) },
         { id: 'w4', label: 'Week 4', expanded: false, entries: [] },
     ],
 };
@@ -493,6 +577,21 @@ function applyWeek2ContentVersion(state) {
     return state;
 }
 
+function applyWeek3ContentVersion(state) {
+    if (localStorage.getItem(WEEK3_CONTENT_VERSION_KEY) === WEEK3_CONTENT_VERSION) {
+        return state;
+    }
+    if (state.weeks?.[2]) {
+        state.weeks[2] = {
+            ...state.weeks[2],
+            expanded: true,
+            entries: tagEntriesWithDay(buildWeek3Day1Entries(), 1),
+        };
+    }
+    localStorage.setItem(WEEK3_CONTENT_VERSION_KEY, WEEK3_CONTENT_VERSION);
+    return state;
+}
+
 function applyWeek4ContentVersion(state) {
     if (localStorage.getItem(WEEK4_CONTENT_VERSION_KEY) === WEEK4_CONTENT_VERSION) {
         return state;
@@ -516,6 +615,7 @@ function loadState() {
             let merged = mergeDefaults(parsed);
             merged = applyWeek1ContentVersion(merged);
             merged = applyWeek2ContentVersion(merged);
+            merged = applyWeek3ContentVersion(merged);
             merged = applyWeek4ContentVersion(merged);
             try {
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
@@ -530,6 +630,7 @@ function loadState() {
     const fresh = structuredClone(DEFAULT_DATA);
     localStorage.setItem(WEEK1_CONTENT_VERSION_KEY, WEEK1_CONTENT_VERSION);
     localStorage.setItem(WEEK2_CONTENT_VERSION_KEY, WEEK2_CONTENT_VERSION);
+    localStorage.setItem(WEEK3_CONTENT_VERSION_KEY, WEEK3_CONTENT_VERSION);
     localStorage.setItem(WEEK4_CONTENT_VERSION_KEY, WEEK4_CONTENT_VERSION);
     return fresh;
 }
@@ -798,7 +899,8 @@ function renderEntry(entry) {
                 entry.id === 'w1-day2-intro' ||
                 entry.id === 'w1-day3-intro' ||
                 entry.id === 'w2-day1-intro' ||
-                entry.id === 'w2-day5-intro'
+                entry.id === 'w2-day5-intro' ||
+                entry.id === 'w3-day1-intro'
                     ? `<h3 class="week-section-heading">${escapeHtml(entry.title)}</h3><p>${escapeHtml(entry.description)}</p>`
                     : `<p><strong>${escapeHtml(entry.title)}</strong></p><p>${escapeHtml(entry.description)}</p>`;
             break;

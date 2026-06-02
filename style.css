@@ -617,6 +617,11 @@ body {
     border-left-width: 5px;
 }
 
+.log-entry[data-id="w3-day1-intro"] {
+    border-left-color: #6366f1;
+    border-left-width: 5px;
+}
+
 .log-entry-body .image-caption {
     line-height: 1.55;
     max-width: 52rem;
