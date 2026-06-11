@@ -3,10 +3,12 @@ const WEEK1_CONTENT_VERSION = '4';
 const WEEK1_CONTENT_VERSION_KEY = 'week1-content-v';
 const WEEK2_CONTENT_VERSION = '6';
 const WEEK2_CONTENT_VERSION_KEY = 'week2-content-v';
-const WEEK3_CONTENT_VERSION = '2';
+const WEEK3_CONTENT_VERSION = '6';
 const WEEK3_CONTENT_VERSION_KEY = 'week3-content-v';
-const WEEK4_CONTENT_VERSION = '2';
+const WEEK4_CONTENT_VERSION = '3';
 const WEEK4_CONTENT_VERSION_KEY = 'week4-content-v';
+const SESSIONS_CONTENT_VERSION = '1';
+const SESSIONS_CONTENT_VERSION_KEY = 'sessions-content-v';
 const DAYS_PER_WEEK = 6;
 const DEFAULT_PROFILE_SRC = 'assets/profile-photo.png';
 const MAX_FILE_SIZE = 5 * 1024 * 1024; /* 5 MB per file — localStorage limit */
@@ -499,6 +501,521 @@ function buildWeek3Day1Entries() {
     ];
 }
 
+function buildWeek3Day2Entries() {
+    const base = 'assets/week3-day2-arduino/';
+    return [
+        {
+            id: 'w3-day2-intro',
+            type: 'project',
+            title: 'Week 3 — Day 2: Arduino Uno, Nano & Mega 2560',
+            description:
+                'Day 2 compares three classic Arduino boards — Uno Rev3, Nano, and Mega 2560 Rev3. I studied each processor, pin count, USB bridge, form factor, and when to pick which board for IoT and maker projects.',
+            createdAt: '2026-06-03T10:00:00.000Z',
+        },
+        {
+            id: 'w3-day2-table',
+            type: 'table',
+            title: 'Arduino Uno vs Nano vs Mega 2560 — at a glance',
+            headers: ['Feature', 'Arduino Uno Rev3', 'Arduino Nano', 'Arduino Mega 2560 Rev3'],
+            rows: [
+                ['Primary MCU', 'ATmega328P', 'ATmega328(P)', 'ATmega2560'],
+                ['Clock speed', '16 MHz (up to 20 MHz)', '16 MHz', '16 MHz'],
+                ['Digital I/O', '14 (6 PWM)', '14 (6 PWM)', '54 (15 PWM)'],
+                ['Analog inputs', '6 (A0–A5)', '8 (A0–A7)', '16 (A0–A15)'],
+                ['Flash / SRAM / EEPROM', '32 KB / 2 KB / 1 KB', '32 KB / 2 KB / 1 KB', '256 KB / 8 KB / 4 KB'],
+                ['USB bridge IC', 'ATmega16U2', 'FT232RL (or CH340 on clones)', 'ATmega16U2'],
+                ['USB connector', 'USB Type-B', 'Mini-USB / Micro-USB', 'USB Type-B'],
+                ['Input voltage', '7–12 V (barrel jack)', '7–12 V (VIN) or USB', '7–12 V (barrel jack)'],
+                ['Form factor', 'Full-size + shield headers', 'Breadboard-friendly (~18 × 45 mm)', 'Large (~101 × 53 mm)'],
+                ['Hardware UARTs', '1', '1', '4'],
+                ['Best suited for', 'Learning, shields, general projects', 'Compact breadboard builds', 'Many sensors, motors & displays'],
+            ],
+            caption: 'All three run at 5 V logic and use the Arduino IDE — the Mega adds I/O and memory; the Nano shrinks the Uno footprint.',
+            createdAt: '2026-06-03T10:05:00.000Z',
+        },
+        {
+            id: 'w3-day2-learning-uno',
+            type: 'learning',
+            topic: 'Arduino Uno Rev3 — key points',
+            machine: 'ATmega328P + ATmega16U2 USB bridge',
+            concept:
+                '• Main processor: ATmega328P at 16 MHz (rated up to 20 MHz).\n• Most GPIO pins go to external headers; a few are reserved for the USB bridge coprocessor.\n• 14 digital I/O pins (6 PWM), 6 analog inputs (A0–A5).\n• ATmega16U2 converts USB to UART for programming and serial monitor.\n• Power via USB-B or 7–12 V DC barrel jack; onboard 5 V and 3.3 V regulators.\n• Standard full-size layout fits Arduino shields — ideal for beginners and prototyping.',
+            createdAt: '2026-06-03T10:10:00.000Z',
+        },
+        {
+            id: 'w3-day2-img-uno',
+            type: 'image',
+            src: `${base}01-arduino-uno-labeled.png`,
+            caption:
+                'Arduino Uno Rev3 — labeled board: ATmega328P MCU, crystal oscillator, USB port, DC power jack, digital pins 0–13, analog A0–A5, 5V/3.3V/GND, TX/RX LEDs, reset button, and ICSP header.',
+            createdAt: '2026-06-03T10:12:00.000Z',
+        },
+        {
+            id: 'w3-day2-img-uno-power',
+            type: 'image',
+            src: `${base}05-arduino-uno-power.png`,
+            caption:
+                'Uno power architecture — VIN and USBVCC feed regulators to +5V and +3.3V rails; ATmega328P (~410 mA max) and ATmega16U2 (~261 mA max) share the regulated supply.',
+            createdAt: '2026-06-03T10:14:00.000Z',
+        },
+        {
+            id: 'w3-day2-learning-nano',
+            type: 'learning',
+            topic: 'Arduino Nano — key points',
+            machine: 'ATmega328 @ 16 MHz, FT232RL USB-serial',
+            concept:
+                '• Same ATmega328 family as Uno — 8-bit, 16 MHz, low power.\n• Smallest footprint of the three; dual-row pins plug straight into a breadboard.\n• 14 digital I/O, 6 PWM, and 8 analog pins (A0–A7) — two more analog than Uno.\n• Serial: UART TTL (5 V), I2C (A4/A5), and SPI — same Arduino sketches as Uno.\n• FT232RL bridges USB to the MCU; LM1117 regulator provides 5 V from VIN or USB.\n• Perfect for space-limited maker projects where shield headers are not needed.',
+            createdAt: '2026-06-03T10:18:00.000Z',
+        },
+        {
+            id: 'w3-day2-img-nano',
+            type: 'image',
+            src: `${base}02-arduino-nano-board.png`,
+            caption:
+                'Arduino Nano — compact blue PCB with Mini-USB, ATmega328P chip, reset button, and pins D0–D13 plus A0–A7 on both sides for breadboard use.',
+            createdAt: '2026-06-03T10:20:00.000Z',
+        },
+        {
+            id: 'w3-day2-img-nano-pinout',
+            type: 'image',
+            src: `${base}03-arduino-nano-pinout.png`,
+            caption:
+                'Nano mechanical drawing & pinout — ~1.7" × 0.7" board, 0.1" pin pitch, 30 pins: D0–D13, A0–A7, 5V, 3.3V, VIN, GND, and RESET.',
+            createdAt: '2026-06-03T10:22:00.000Z',
+        },
+        {
+            id: 'w3-day2-img-nano-block',
+            type: 'image',
+            src: `${base}06-arduino-nano-block.png`,
+            caption:
+                'Nano block diagram — USB (J3) → FT232RL → UART → ATmega328P; VIN through LM1117 to +5V; 16 MHz crystal (Y1) clocks the MCU.',
+            createdAt: '2026-06-03T10:24:00.000Z',
+        },
+        {
+            id: 'w3-day2-learning-mega',
+            type: 'learning',
+            topic: 'Arduino Mega 2560 Rev3 — key points',
+            machine: 'ATmega2560 + ATmega16U2 USB bridge',
+            concept:
+                '• Primary processor: ATmega2560 at 16 MHz — far more flash, SRAM, and EEPROM than Uno/Nano.\n• 54 digital I/O lines and 16 analog inputs — connect many sensors and actuators at once.\n• Processing stays responsive thanks to 8 KB SRAM (vs 2 KB on Uno/Nano).\n• ATmega16U2 USB-serial bridge — same flexible USB interface as the Uno.\n• Four hardware UART ports for multi-serial projects (GPS, Bluetooth, RS-485, etc.).\n• Choose Mega when pin count and memory matter more than board size.',
+            createdAt: '2026-06-03T10:28:00.000Z',
+        },
+        {
+            id: 'w3-day2-img-mega-pinout',
+            type: 'image',
+            src: `${base}04-arduino-mega-pinout.png`,
+            caption:
+                'Mega 2560 Rev3 pinout — ATmega2560 MCU, ATmega16U2 USB chip, 16 analog pins (A0–A15), digital D0–D53, four UARTs, I2C (SDA/SCL), PWM pins marked ~, and power header.',
+            createdAt: '2026-06-03T10:30:00.000Z',
+        },
+        {
+            id: 'w3-day2-img-mega-block',
+            type: 'image',
+            src: `${base}07-arduino-mega-block.png`,
+            caption:
+                'Mega 2560 block diagram — PWRIN/USBVCC → LD1117 (+5V) & LP2985 (+3.3V); USB (X2) → ATmega16U2 → UART → ATmega2560; both MCUs run at 16 MHz.',
+            createdAt: '2026-06-03T10:32:00.000Z',
+        },
+    ];
+}
+
+function buildWeek3Day3Entries() {
+    const base = 'assets/week3-day3-firebase/';
+    const items = [
+        [
+            '01.png',
+            'Firebase homepage (firebase.google.com) — click Go to console (top right) to open the Firebase Console and manage projects.',
+        ],
+        [
+            '02.png',
+            'Firebase Console home — click Create a new Firebase project to start a backend for the ESP32 / IoT app.',
+        ],
+        [
+            '03.png',
+            'Create a project — step 1: enter a project name. Firebase auto-generates a unique project ID below the field.',
+        ],
+        [
+            '04.png',
+            'Project named esp32 with auto-generated ID esp32-1e24d. A warning appears when the account is near the free-tier project limit.',
+        ],
+        [
+            '05.png',
+            'Enable Gemini in Firebase (recommended) — AI help for planning, Crashlytics debugging, Cloud Messaging insights, and SQL Connect. Click Continue.',
+        ],
+        [
+            '06.png',
+            'Enable Google Analytics for this project (recommended) — unlocks A/B testing, user segmentation, Crashlytics breadcrumbs, and free reporting. Click Continue.',
+        ],
+        [
+            '07.png',
+            'Configure Google Analytics — choose Default Account for Firebase, then click Create project to finish provisioning.',
+        ],
+        [
+            '08.png',
+            'New project esp32 on Spark plan — open Security in the sidebar, then select Authentication to set up user sign-in.',
+        ],
+        [
+            '09.png',
+            'Authentication landing page — click Get started to add sign-in methods (Email/Password, Google, Phone, and more).',
+        ],
+        [
+            '10.png',
+            'Sign-in method tab — providers grouped as Native (Email/Password, Phone, Anonymous) and Additional (Google, Facebook, GitHub, etc.). Select Google.',
+        ],
+        [
+            '11.png',
+            'Google sign-in setup — turn the Enable toggle on. Android apps also need SHA-1 fingerprints in Project Settings → Your apps.',
+        ],
+        [
+            '12.png',
+            'Google provider enabled — set the public-facing project name and support email, then click Save. Expand Web SDK configuration for client IDs if needed.',
+        ],
+        [
+            '13.png',
+            'Open Databases & Storage in the sidebar, then choose Realtime Database under NoSQL (JSON tree, live sync).',
+        ],
+        [
+            '14.png',
+            'Realtime Database intro — click Create Database to store and sync sensor or app data in real time.',
+        ],
+        [
+            '15.png',
+            'Set up database — step 1 Database options: pick Realtime Database location Singapore (asia-southeast1) for lower latency in Asia, then Next.',
+        ],
+        [
+            '16.png',
+            'Security rules — step 2: Start in test mode for quick development (open read/write until the expiry date). Click Enable; tighten rules before production.',
+        ],
+        [
+            '17.png',
+            'Copy the Realtime Database URL — use the link icon next to the database reference so ESP32 or web clients can connect to asia-southeast1.',
+        ],
+        [
+            '18.png',
+            'Realtime Database Data tab — live URL shown at the top; open Settings → General from the gear menu for project ID and app registration.',
+        ],
+        [
+            '19.png',
+            'Project Settings → Service accounts → Firebase Admin SDK — click Generate new private key to download JSON credentials for server-side Node.js/Python access.',
+        ],
+        [
+            '20.png',
+            'Admin SDK page — Node.js snippet loads serviceAccountKey.json and databaseURL. Database secrets (legacy) in the sidebar are deprecated.',
+        ],
+        [
+            '21.png',
+            'Database secrets (legacy) — warning: use Firebase Admin SDK instead of legacy token generator secrets for new projects.',
+        ],
+        [
+            '22.png',
+            'Settings menu — select Service accounts to reach Admin SDK and credential management.',
+        ],
+        [
+            '23.png',
+            'Project Settings → Your apps — no apps yet. Click the Web icon (</>) to register a web app and get firebaseConfig.',
+        ],
+        [
+            '24.png',
+            'Add Firebase to your web app — step 1 Register app: enter app nickname AccuWeather, then click Register app.',
+        ],
+        [
+            '25.png',
+            'Step 2 Add Firebase SDK — copy firebaseConfig (apiKey, authDomain, databaseURL, projectId, appId) and run initializeApp(firebaseConfig) plus getAnalytics(app) in your web project.',
+        ],
+    ];
+
+    const images = items.map((pair, i) => ({
+        id: `w3-day3-img-${String(i + 1).padStart(2, '0')}`,
+        type: 'image',
+        src: `${base}${pair[0]}`,
+        caption: pair[1],
+        createdAt: `2026-06-04T${String(9 + Math.floor(i / 5)).padStart(2, '0')}:${String((i * 5) % 60).padStart(2, '0')}:00.000Z`,
+    }));
+
+    return [
+        {
+            id: 'w3-day3-intro',
+            type: 'project',
+            title: 'Week 3 — Day 3: Firebase Console, Authentication & Realtime Database',
+            description:
+                'Day 3 walkthrough: created Firebase project esp32, enabled Gemini and Google Analytics, set up Authentication with Google sign-in, created a Realtime Database in Singapore (test mode), generated Admin SDK credentials, registered a web app (AccuWeather), and copied the Firebase web SDK config for client integration.',
+            createdAt: '2026-06-04T09:00:00.000Z',
+        },
+        {
+            id: 'w3-day3-learning-auth',
+            type: 'learning',
+            topic: 'Firebase Authentication — providers & configuration',
+            machine: 'Firebase Console (web)',
+            concept:
+                'Firebase Auth adds sign-in without custom backend code. Enable providers under Authentication → Sign-in method. For Google: turn Enable on, set support email and public name, then Save. Android Google sign-in requires SHA-1 in Project Settings. OAuth options include Email/Password, Phone, GitHub, and Facebook.',
+            createdAt: '2026-06-04T09:05:00.000Z',
+        },
+        {
+            id: 'w3-day3-learning-db',
+            type: 'learning',
+            topic: 'Realtime Database, Admin SDK & web app setup',
+            machine: 'Firebase Realtime Database + Admin SDK + Web SDK',
+            concept:
+                'Realtime Database syncs JSON in real time — pick a nearby region (e.g. asia-southeast1). Test mode allows open access temporarily; use locked rules for production. Server code uses Admin SDK with a service-account JSON key (never commit to Git). Web apps register under Project Settings, then use firebaseConfig with initializeApp().',
+            createdAt: '2026-06-04T09:10:00.000Z',
+        },
+        ...images,
+    ];
+}
+
+function buildWeek3Day4Entries() {
+    const base = 'assets/week3-day4-motors/';
+    return [
+        {
+            id: 'w3-day4-intro',
+            type: 'project',
+            title: 'Week 3 — Day 4: BO Motors, L298 Driver & MG995 Servo',
+            description:
+                'Day 4 covers DC motor fundamentals — how a motor-gearbox trades speed for torque, the internal parts of a BO (Battery Operated) motor, controlling BO motors with the L298 H-bridge driver using PWM, and using the MG995 metal-gear servo for precise angular motion in robotics.',
+            createdAt: '2026-06-05T10:00:00.000Z',
+        },
+        {
+            id: 'w3-day4-learning-gearbox',
+            type: 'learning',
+            topic: 'Motor–gearbox system — speed vs torque',
+            machine: 'BO (Battery Operated) DC motor with plastic gearbox',
+            concept:
+                'A motor-gearbox reduces output speed while multiplying torque. Since mechanical power ≈ torque × speed, lowering speed raises available torque at the output shaft — essential for wheels, arms, and other high-torque loads. The gearbox uses compound spur gears: a small pinion on the motor shaft drives larger gears in stages until the final output shaft turns slowly but with much more force.',
+            createdAt: '2026-06-05T10:05:00.000Z',
+        },
+        {
+            id: 'w3-day4-img-gearbox',
+            type: 'image',
+            src: `${base}02-bo-motor-gearbox.png`,
+            caption:
+                'BO motor gearbox internals — yellow plastic housing with white compound spur gears, pinion, shafts, and bushings. Multiple gear stages step down motor RPM and step up torque for driving robot wheels.',
+            createdAt: '2026-06-05T10:10:00.000Z',
+        },
+        {
+            id: 'w3-day4-learning-bo-motor',
+            type: 'learning',
+            topic: 'Parts of a BO motor',
+            machine: 'BO DC motor (brushed, permanent-magnet)',
+            concept:
+                '• Rotor coil — copper windings on the spinning shaft create the magnetic field.\n• Commutator — segmented copper ring that reverses current direction each half-turn.\n• Permanent magnets (stator) — fixed magnets inside the metal housing.\n• Brushes — spring contacts that press against the commutator to feed current.\n• Capacitor — soldered across terminals to reduce electrical noise and sparking.',
+            createdAt: '2026-06-05T10:15:00.000Z',
+        },
+        {
+            id: 'w3-day4-img-bo-parts',
+            type: 'image',
+            src: `${base}01-bo-motor-parts.png`,
+            caption:
+                'Exploded view of a BO motor — rotor coil, commutator, stator permanent magnets, brushes, and noise-suppression capacitor labeled. These parts work together to convert electrical energy into rotational motion.',
+            createdAt: '2026-06-05T10:20:00.000Z',
+        },
+        {
+            id: 'w3-day4-learning-l298',
+            type: 'learning',
+            topic: 'L298 motor driver — Experiment 4',
+            machine: 'L298 dual H-bridge motor driver module',
+            concept:
+                'In Experiment 4, BO motors are driven by an L298 module. PWM (Pulse Width Modulation) varies the effective voltage applied to the motor, controlling speed. An H-bridge inside the L298 reverses current flow through the motor windings, switching rotation between clockwise and anticlockwise. One L298 can control two DC motors independently.',
+            createdAt: '2026-06-05T10:25:00.000Z',
+        },
+        {
+            id: 'w3-day4-learning-servo',
+            type: 'learning',
+            topic: 'MG995 Metal Gear Servo',
+            machine: 'Pro MG995 DIGI HI-SPEED standard servo (metal gears)',
+            concept:
+                '• Rotation range: ~120° total (60° each direction from centre).\n• Cable: 30 cm with 3-pin “S” type female header — compatible with Futaba, JR, GWS, Hitec, Spektrum, and most RC receivers.\n• Beginner-friendly: use any standard servo library — no need to build a custom motor controller with feedback and gearbox.\n• Compact metal-gear design fits small spaces; includes a selection of servo horns and mounting hardware.\n• Body size: approx. 40 × 20 × 38 mm (see dimensional diagram).',
+            createdAt: '2026-06-05T10:30:00.000Z',
+        },
+        {
+            id: 'w3-day4-img-mg995',
+            type: 'image',
+            src: `${base}03-mg995-servo.png`,
+            caption:
+                'MG995 metal-gear servo — photo and dimensional drawings (side 38 mm, width 20 mm, length 54 mm with flanges). Three-wire cable (brown, red, orange) with standard 3-pin connector; brass output shaft with cross-type horn.',
+            createdAt: '2026-06-05T10:35:00.000Z',
+        },
+        {
+            id: 'w3-day4-img-servo-system',
+            type: 'image',
+            src: `${base}04-servo-system-config.png`,
+            caption:
+                'Servo system configuration — closed-loop control: (1) Controller sends target values to the servo drive; (2) Servo drive outputs motor power signals; (3) Encoder on the servomotor feeds position feedback. Industrial servos use the same principle as hobby servos, but with higher precision and load capacity.',
+            createdAt: '2026-06-05T10:40:00.000Z',
+        },
+    ];
+}
+
+function buildWeek4Day2Entries() {
+    const base = 'assets/week4-day2-edge-impulse/';
+    const items = [
+        [
+            '01.png',
+            'Google search for Edge Impulse — open edgeimpulse.com (leading edge AI platform for deploying ML on microcontrollers).',
+        ],
+        [
+            '02.png',
+            'Edge Impulse homepage in search results — platform for building intelligent products with computer vision, predictive maintenance, and edge ML.',
+        ],
+        [
+            '03.png',
+            'Project dashboard — Alphabets_classification (Prathamesh_07), target device Cortex-M4F 80 MHz, tag IMAGES. Start by collecting data or uploading a dataset.',
+        ],
+        [
+            '04.png',
+            'Devices tab — connect hardware to Edge Impulse via Remote Management API or Ingestion API. Click + Connect a new device.',
+        ],
+        [
+            '05.png',
+            'Data acquisition — 10 camera samples collected (labels A, B, C), 90% train / 10% test split. Phone device used to capture images with label C selected.',
+        ],
+        [
+            '06.png',
+            'Create Impulse — set input to Image data at 96×96 pixels, resize mode Fit shortest axis, 100% training subset. Add processing and learning blocks next.',
+        ],
+        [
+            '07.png',
+            'Add processing block — choose Image (preprocess and normalize image data, optionally reduce color depth).',
+        ],
+        [
+            '08.png',
+            'Add learning block — choose Classification to categorize images into patterns (3 classes: A, B, C).',
+        ],
+        [
+            '09.png',
+            'Complete impulse pipeline — Image data → Image DSP → Classifier → output A, B, C. Click Save Impulse.',
+        ],
+        [
+            '10.png',
+            'Image processing block — input 96×96, Fit shortest axis resize keeps images square for the neural network.',
+        ],
+        [
+            '11.png',
+            'Image parameters — Color depth set to RGB; raw features show hex pixel values. Click Save parameters.',
+        ],
+        [
+            '12.png',
+            'Generate features — training set has 9 items across 3 classes. Click Generate features to convert raw images into feature vectors.',
+        ],
+        [
+            '13.png',
+            'Feature explorer — scatter plot shows blue (A), orange (B), and green (C) clusters after feature extraction; checks class separation before training.',
+        ],
+        [
+            '14.png',
+            'Neural network settings — 10 training cycles, learning rate 0.0005, CPU trainer. Architecture: 27,648 input features, 2× 2D conv/pool layers.',
+        ],
+        [
+            '15.png',
+            'CNN architecture — 16-filter conv → 32-filter conv → Flatten → Dropout 0.25 → Output layer (3 classes). Click Save & train.',
+        ],
+        [
+            '16.png',
+            'Training results — quantized int8 model: 50% accuracy, loss 1.17. Confusion matrix shows Class A misclassified as C; Class C predicted correctly.',
+        ],
+        [
+            '17.png',
+            'Model testing view — validation metrics and data explorer confirm overlap between classes; more training data and tuning needed to improve accuracy.',
+        ],
+    ];
+
+    const images = items.map((pair, i) => ({
+        id: `w4-day2-img-${String(i + 1).padStart(2, '0')}`,
+        type: 'image',
+        src: `${base}${pair[0]}`,
+        caption: pair[1],
+        createdAt: `2026-06-10T${String(7 + Math.floor(i / 4)).padStart(2, '0')}:${String((i * 6) % 60).padStart(2, '0')}:00.000Z`,
+    }));
+
+    return [
+        {
+            id: 'w4-day2-intro',
+            type: 'project',
+            title: 'Week 4 — Day 2: Edge Impulse — Alphabets Classification',
+            description:
+                'Day 2 introduces Edge Impulse for TinyML: created the Alphabets_classification project, collected camera images for letters A, B, and C, designed an impulse (Image → Classification CNN), generated features, trained a neural network, and reviewed model accuracy on Cortex-M4F target hardware.',
+            createdAt: '2026-06-10T07:00:00.000Z',
+        },
+        {
+            id: 'w4-day2-learning-workflow',
+            type: 'learning',
+            topic: 'Edge Impulse ML workflow',
+            machine: 'Edge Impulse Studio — Cortex-M4F 80 MHz target',
+            concept:
+                '• Impulse = input block + DSP processing + learning block + output.\n• Collect labeled data (camera images for A, B, C).\n• Set image size to 96×96 RGB for microcontroller-friendly memory use.\n• Generate features to visualize class clusters before training.\n• Train a CNN classifier, then deploy the quantized model to Arduino/ESP32.',
+            createdAt: '2026-06-10T07:05:00.000Z',
+        },
+        ...images,
+        {
+            id: 'w4-day2-learning-results',
+            type: 'learning',
+            topic: 'First training results & next steps',
+            machine: 'Edge Impulse Classifier (quantized int8)',
+            concept:
+                '• Initial model reached 50% accuracy — Class C detected well, Class A confused with C.\n• Small dataset (9–10 samples) limits generalization.\n• Improve by collecting more varied images per letter, balancing classes, and retraining.\n• Use the confusion matrix and feature explorer to spot overlapping clusters.',
+            createdAt: '2026-06-10T08:00:00.000Z',
+        },
+    ];
+}
+
+function buildDesignThinkingSessionEntries() {
+    const base = 'assets/sessions/design-thinking/';
+    return [
+        {
+            id: 'sess-dt-intro',
+            type: 'project',
+            title: 'Design Thinking Session — Summer Internship 2026',
+            description:
+                'An insightful session on Design Thinking and Innovation at Tinkerers\' Lab, Sanjivani University (25 May 2026). Led by Prof. Srilalitha Girija Kumari Sagi — Director, Executive Education & MDPs — the workshop guided interns to approach challenges creatively, empathize with users, and build impactful solutions. Theme: Learn by doing. Lead by innovating.',
+            createdAt: '2026-05-25T10:00:00.000Z',
+        },
+        {
+            id: 'sess-dt-learning-overview',
+            type: 'learning',
+            topic: 'What is Design Thinking?',
+            machine: 'Human-centered innovation framework (Stanford d.school)',
+            concept:
+                'Design Thinking is a structured, creative problem-solving process that starts with people, not products. Instead of jumping to a technical fix, you first understand real user needs, reframe the problem, explore many ideas, build quick prototypes, and test with feedback. The five stages — Empathize, Define, Ideate, Prototype, Test — form a loop you repeat until the solution truly fits the user.',
+            createdAt: '2026-05-25T10:05:00.000Z',
+        },
+        {
+            id: 'sess-dt-learning-stages',
+            type: 'learning',
+            topic: 'The 5 stages of Design Thinking',
+            machine: 'Empathize → Define → Ideate → Prototype → Test',
+            concept:
+                '• Empathize — Understand your users\' actual struggles and emotions through interviews, observation, or empathy mapping. Step into their context before proposing solutions.\n• Define — Synthesize research into a clear problem statement (Point of View). Focus on the root need, not just symptoms.\n• Ideate — Run brainstorming sessions to push past obvious answers and generate diverse, creative alternatives. Quantity and variety matter here.\n• Prototype — Bring the best ideas to life quickly and cheaply using paper, sticky notes, cardboard, or digital mock-ups. Prototypes are for learning, not perfection.\n• Test — Put prototypes in front of real users or stakeholders, gather feedback, and refine. Failed tests are valuable data that send you back to earlier stages.',
+            createdAt: '2026-05-25T10:10:00.000Z',
+        },
+        {
+            id: 'sess-dt-img-poster',
+            type: 'image',
+            src: `${base}01-session-poster.png`,
+            caption:
+                'Session poster — Design Thinking Session, Summer Internship Program 2026. Speaker: Prof. Srilalitha Girija Kumari Sagi. Venue: Tinkerers\' Lab. Core themes: Innovate (generate meaningful ideas), Empathize (understand people, solve real problems), Implement (create impact).',
+            createdAt: '2026-05-25T10:15:00.000Z',
+        },
+        {
+            id: 'sess-dt-img-workshop',
+            type: 'image',
+            src: `${base}02-session-workshop.png`,
+            caption:
+                'Live workshop at Tinkerers\' Lab — Prof. Srilalitha Girija Kumari Sagi presenting on organisational development and innovation to Summer Internship 2026 participants.',
+            createdAt: '2026-05-25T10:20:00.000Z',
+        },
+    ];
+}
+
+function buildDefaultSessions() {
+    return [
+        {
+            id: 'sess-design-thinking',
+            label: 'Design Thinking Session',
+            expanded: true,
+            entries: buildDesignThinkingSessionEntries(),
+        },
+    ];
+}
+
 const DEFAULT_DATA = {
     profileImage: null,
     aboutExtra: '',
@@ -539,9 +1056,25 @@ const DEFAULT_DATA = {
     weeks: [
         { id: 'w1', label: 'Week 1', expanded: true, entries: buildWeek1AllEntries() },
         { id: 'w2', label: 'Week 2', expanded: true, entries: buildWeek2AllEntries() },
-        { id: 'w3', label: 'Week 3', expanded: true, entries: tagEntriesWithDay(buildWeek3Day1Entries(), 1) },
-        { id: 'w4', label: 'Week 4', expanded: false, entries: [] },
+        {
+            id: 'w3',
+            label: 'Week 3',
+            expanded: true,
+            entries: [
+                ...tagEntriesWithDay(buildWeek3Day1Entries(), 1),
+                ...tagEntriesWithDay(buildWeek3Day2Entries(), 2),
+                ...tagEntriesWithDay(buildWeek3Day3Entries(), 3),
+                ...tagEntriesWithDay(buildWeek3Day4Entries(), 4),
+            ],
+        },
+        {
+            id: 'w4',
+            label: 'Week 4',
+            expanded: true,
+            entries: [...tagEntriesWithDay(buildWeek4Day2Entries(), 2)],
+        },
     ],
+    sessions: buildDefaultSessions(),
 };
 
 let state = loadState();
@@ -585,7 +1118,12 @@ function applyWeek3ContentVersion(state) {
         state.weeks[2] = {
             ...state.weeks[2],
             expanded: true,
-            entries: tagEntriesWithDay(buildWeek3Day1Entries(), 1),
+            entries: [
+                ...tagEntriesWithDay(buildWeek3Day1Entries(), 1),
+                ...tagEntriesWithDay(buildWeek3Day2Entries(), 2),
+                ...tagEntriesWithDay(buildWeek3Day3Entries(), 3),
+                ...tagEntriesWithDay(buildWeek3Day4Entries(), 4),
+            ],
         };
     }
     localStorage.setItem(WEEK3_CONTENT_VERSION_KEY, WEEK3_CONTENT_VERSION);
@@ -599,11 +1137,20 @@ function applyWeek4ContentVersion(state) {
     if (state.weeks?.[3]) {
         state.weeks[3] = {
             ...state.weeks[3],
-            expanded: false,
-            entries: [],
+            expanded: true,
+            entries: [...tagEntriesWithDay(buildWeek4Day2Entries(), 2)],
         };
     }
     localStorage.setItem(WEEK4_CONTENT_VERSION_KEY, WEEK4_CONTENT_VERSION);
+    return state;
+}
+
+function applySessionsContentVersion(state) {
+    if (localStorage.getItem(SESSIONS_CONTENT_VERSION_KEY) === SESSIONS_CONTENT_VERSION) {
+        return state;
+    }
+    state.sessions = buildDefaultSessions();
+    localStorage.setItem(SESSIONS_CONTENT_VERSION_KEY, SESSIONS_CONTENT_VERSION);
     return state;
 }
 
@@ -617,6 +1164,7 @@ function loadState() {
             merged = applyWeek2ContentVersion(merged);
             merged = applyWeek3ContentVersion(merged);
             merged = applyWeek4ContentVersion(merged);
+            merged = applySessionsContentVersion(merged);
             try {
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
             } catch (_) {
@@ -632,6 +1180,7 @@ function loadState() {
     localStorage.setItem(WEEK2_CONTENT_VERSION_KEY, WEEK2_CONTENT_VERSION);
     localStorage.setItem(WEEK3_CONTENT_VERSION_KEY, WEEK3_CONTENT_VERSION);
     localStorage.setItem(WEEK4_CONTENT_VERSION_KEY, WEEK4_CONTENT_VERSION);
+    localStorage.setItem(SESSIONS_CONTENT_VERSION_KEY, SESSIONS_CONTENT_VERSION);
     return fresh;
 }
 
@@ -646,6 +1195,7 @@ function mergeDefaults(parsed) {
             files: p.files ?? [],
         })),
         weeks: parsed.weeks?.length === 4 ? parsed.weeks : base.weeks,
+        sessions: parsed.sessions?.length ? parsed.sessions : base.sessions,
     };
 }
 
@@ -715,6 +1265,7 @@ function renderAll() {
     renderAbout();
     renderSkills();
     renderProjects();
+    renderSessions();
     renderWeeks();
 }
 
@@ -839,6 +1390,46 @@ function renderWeekDays(entries) {
     }).join('');
 }
 
+function renderSessions() {
+    const container = document.getElementById('sessions-container');
+    if (!container) return;
+    const sessions = state.sessions ?? [];
+    container.innerHTML = sessions.length
+        ? sessions
+              .map((session, index) => {
+                  const entriesHtml = session.entries.length
+                      ? session.entries.map((e) => renderEntry(e)).join('')
+                      : '<p class="session-empty">No entries for this session yet.</p>';
+
+                  return `
+        <div class="session-block ${session.expanded ? 'expanded' : ''}" data-session="${index}">
+            <button type="button" class="session-toggle" aria-expanded="${session.expanded}">
+                <span class="session-chevron">▶</span>
+                <span class="session-title">${escapeHtml(session.label)}</span>
+                <span class="session-count">${session.entries.length} ${session.entries.length === 1 ? 'entry' : 'entries'}</span>
+            </button>
+            <div class="session-panel">
+                <div class="session-entries">${entriesHtml}</div>
+                <div class="session-actions">
+                    <button type="button" class="btn btn-session" data-action="note" data-session="${index}">📝 Add Note</button>
+                    <button type="button" class="btn btn-session" data-action="learning" data-session="${index}">📖 Add Learning</button>
+                    <button type="button" class="btn btn-session" data-action="project" data-session="${index}">🛠 Add Project</button>
+                    <label class="btn btn-session btn-file">
+                        🖼 Add Image
+                        <input type="file" accept="image/*" data-action="image" data-session="${index}" hidden>
+                    </label>
+                    <label class="btn btn-session btn-file">
+                        📎 Add File
+                        <input type="file" accept="${FILE_ACCEPT}" data-action="file" data-session="${index}" hidden>
+                    </label>
+                </div>
+            </div>
+        </div>`;
+              })
+              .join('')
+        : '<p class="section-desc">No sessions yet. Click <strong>+ Add Session</strong> to document a workshop or talk.</p>';
+}
+
 function renderWeeks() {
     const container = document.getElementById('weeks-container');
     container.innerHTML = state.weeks
@@ -880,6 +1471,7 @@ function renderEntry(entry) {
         project: '🛠 Project',
         image: '🖼 Image',
         file: '📎 File',
+        table: '📊 Comparison',
     };
     let body = '';
 
@@ -891,7 +1483,29 @@ function renderEntry(entry) {
             body = `
                 ${entry.topic ? `<p><strong>Topic:</strong> ${escapeHtml(entry.topic)}</p>` : ''}
                 ${entry.machine ? `<p><strong>Machine / Tool:</strong> ${escapeHtml(entry.machine)}</p>` : ''}
-                ${entry.concept ? `<p><strong>Concept:</strong> ${escapeHtml(entry.concept)}</p>` : ''}`;
+                ${entry.concept ? `<p class="concept-text"><strong>Concept:</strong> ${escapeHtml(entry.concept).replace(/\n/g, '<br>')}</p>` : ''}`;
+            break;
+        case 'table':
+            if (entry.headers?.length && entry.rows?.length) {
+                const head = entry.headers.map((h) => `<th>${escapeHtml(h)}</th>`).join('');
+                const rows = entry.rows
+                    .map(
+                        (row) =>
+                            `<tr>${row.map((cell) => `<td>${escapeHtml(cell)}</td>`).join('')}</tr>`
+                    )
+                    .join('');
+                body = `
+                    ${entry.title ? `<p><strong>${escapeHtml(entry.title)}</strong></p>` : ''}
+                    <div class="comparison-table-wrap">
+                        <table class="comparison-table">
+                            <thead><tr>${head}</tr></thead>
+                            <tbody>${rows}</tbody>
+                        </table>
+                    </div>`;
+                if (entry.caption) {
+                    body += `<p class="table-caption">${escapeHtml(entry.caption)}</p>`;
+                }
+            }
             break;
         case 'project':
             body =
@@ -900,7 +1514,12 @@ function renderEntry(entry) {
                 entry.id === 'w1-day3-intro' ||
                 entry.id === 'w2-day1-intro' ||
                 entry.id === 'w2-day5-intro' ||
-                entry.id === 'w3-day1-intro'
+                entry.id === 'w3-day1-intro' ||
+                entry.id === 'w3-day2-intro' ||
+                entry.id === 'w3-day3-intro' ||
+                entry.id === 'w3-day4-intro' ||
+                entry.id === 'w4-day2-intro' ||
+                entry.id === 'sess-dt-intro'
                     ? `<h3 class="week-section-heading">${escapeHtml(entry.title)}</h3><p>${escapeHtml(entry.description)}</p>`
                     : `<p><strong>${escapeHtml(entry.title)}</strong></p><p>${escapeHtml(entry.description)}</p>`;
             break;
@@ -1050,6 +1669,148 @@ function addBio() {
             renderAbout();
         }
     );
+}
+
+function addSession() {
+    openModal(
+        'Add Session',
+        fieldGroup('Session title', 'title', 'text', {
+            placeholder: 'e.g. Design Thinking Workshop, Guest Lecture…',
+        }),
+        (data) => {
+            if (!state.sessions) state.sessions = [];
+            state.sessions.unshift({
+                id: uid(),
+                label: data.title.trim(),
+                expanded: true,
+                entries: [],
+            });
+            saveState();
+            renderSessions();
+        }
+    );
+}
+
+function addSessionEntry(sessionIndex, type) {
+    const session = state.sessions[sessionIndex];
+    const titles = { note: 'Add Note', learning: 'Add Learning', project: 'Add Project' };
+
+    if (type === 'note') {
+        openModal(
+            titles.note,
+            fieldGroup('Note', 'text', 'textarea', { placeholder: 'Session notes, takeaways…' }),
+            (data) => {
+                session.entries.unshift({ id: uid(), type: 'note', text: data.text.trim(), createdAt: new Date().toISOString() });
+                saveState();
+                renderSessions();
+            }
+        );
+        return;
+    }
+
+    if (type === 'learning') {
+        openModal(
+            titles.learning,
+            fieldGroup('Topic', 'topic', 'text', { placeholder: 'What did you learn?' }) +
+                fieldGroup('Machine / tool', 'machine', 'text', { placeholder: 'Optional', required: false }) +
+                fieldGroup('Concept', 'concept', 'textarea', { placeholder: 'Key idea or takeaway', required: false }),
+            (data) => {
+                session.entries.unshift({
+                    id: uid(),
+                    type: 'learning',
+                    topic: data.topic.trim(),
+                    machine: data.machine?.trim() || '',
+                    concept: data.concept?.trim() || '',
+                    createdAt: new Date().toISOString(),
+                });
+                saveState();
+                renderSessions();
+            }
+        );
+        return;
+    }
+
+    if (type === 'project') {
+        openModal(
+            titles.project,
+            fieldGroup('Activity title', 'title', 'text', { placeholder: 'Session activity or topic' }) +
+                fieldGroup('Description', 'description', 'textarea', { placeholder: 'What happened in this session' }),
+            (data) => {
+                session.entries.unshift({
+                    id: uid(),
+                    type: 'project',
+                    title: data.title.trim(),
+                    description: data.description.trim(),
+                    createdAt: new Date().toISOString(),
+                });
+                saveState();
+                renderSessions();
+            }
+        );
+    }
+}
+
+function addSessionImage(sessionIndex, file) {
+    if (!file || !file.type.startsWith('image/')) return;
+    if (!validateFile(file)) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+        openModal(
+            'Add Image',
+            `<div class="image-preview-wrap"><img src="${reader.result}" alt="Preview" class="image-preview"></div>` +
+                fieldGroup('Caption (optional)', 'caption', 'text', { required: false }),
+            (data) => {
+                state.sessions[sessionIndex].entries.unshift({
+                    id: uid(),
+                    type: 'image',
+                    src: reader.result,
+                    caption: data.caption?.trim() || '',
+                    createdAt: new Date().toISOString(),
+                });
+                saveState();
+                renderSessions();
+            }
+        );
+    };
+    reader.readAsDataURL(file);
+}
+
+async function addSessionFile(sessionIndex, file) {
+    if (!file || !validateFile(file)) return;
+    try {
+        const dataUrl = await readFileAsDataUrl(file);
+        openModal(
+            'Add File',
+            `<p class="file-preview-name">${fileIcon(file.name, file.type)} ${escapeHtml(file.name)} <span class="file-size">(${formatFileSize(file.size)})</span></p>` +
+                fieldGroup('Description (optional)', 'description', 'textarea', {
+                    placeholder: 'What is this file?',
+                    required: false,
+                    rows: 3,
+                }),
+            (data) => {
+                state.sessions[sessionIndex].entries.unshift({
+                    id: uid(),
+                    type: 'file',
+                    fileName: file.name,
+                    mimeType: file.type || 'application/octet-stream',
+                    size: file.size,
+                    dataUrl,
+                    description: data.description?.trim() || '',
+                    createdAt: new Date().toISOString(),
+                });
+                saveState();
+                renderSessions();
+            }
+        );
+    } catch {
+        alert('Could not read that file. Please try again.');
+    }
+}
+
+function toggleSession(index) {
+    state.sessions[index].expanded = !state.sessions[index].expanded;
+    saveState();
+    renderSessions();
 }
 
 function addWeekEntry(weekIndex, type) {
@@ -1218,6 +1979,15 @@ function deleteEntry(entryId) {
             return;
         }
     }
+    for (const session of state.sessions ?? []) {
+        const i = session.entries.findIndex((e) => e.id === entryId);
+        if (i !== -1) {
+            session.entries.splice(i, 1);
+            saveState();
+            renderSessions();
+            return;
+        }
+    }
 }
 
 function deleteSkill(id) {
@@ -1249,6 +2019,7 @@ document.getElementById('profile-upload').addEventListener('change', (e) => {
 document.getElementById('btn-add-skill').addEventListener('click', addSkill);
 document.getElementById('btn-add-project').addEventListener('click', addProject);
 document.getElementById('btn-add-bio').addEventListener('click', addBio);
+document.getElementById('btn-add-session').addEventListener('click', addSession);
 
 document.getElementById('modal-close').addEventListener('click', closeModal);
 document.getElementById('modal-cancel').addEventListener('click', closeModal);
@@ -1262,6 +2033,36 @@ modalForm.addEventListener('submit', (e) => {
     const data = Object.fromEntries(new FormData(modalForm));
     modalContext.onSubmit(data);
     closeModal();
+});
+
+document.getElementById('sessions-container').addEventListener('click', (e) => {
+    const toggle = e.target.closest('.session-toggle');
+    if (toggle) {
+        toggleSession(Number(toggle.closest('.session-block').dataset.session));
+        return;
+    }
+    const sessionBtn = e.target.closest('[data-action]');
+    if (sessionBtn && sessionBtn.tagName === 'BUTTON' && sessionBtn.dataset.session !== undefined) {
+        addSessionEntry(Number(sessionBtn.dataset.session), sessionBtn.dataset.action);
+        return;
+    }
+    const del = e.target.closest('.delete-entry');
+    if (del) {
+        if (confirm('Delete this entry?')) deleteEntry(del.dataset.id);
+        return;
+    }
+});
+
+document.getElementById('sessions-container').addEventListener('change', (e) => {
+    const input = e.target.closest('input[data-action]');
+    if (!input?.files?.[0] || input.dataset.session === undefined) return;
+    const sessionIndex = Number(input.dataset.session);
+    if (input.dataset.action === 'image') {
+        addSessionImage(sessionIndex, input.files[0]);
+    } else if (input.dataset.action === 'file') {
+        addSessionFile(sessionIndex, input.files[0]);
+    }
+    input.value = '';
 });
 
 document.getElementById('weeks-container').addEventListener('click', (e) => {
