@@ -1,6 +1,6 @@
 const STORAGE_KEY = 'tinkerer-portfolio-v1';
 const WEEK1_CONTENT_VERSION = '6';
-const SESSIONS_CONTENT_VERSION = '5';
+const SESSIONS_CONTENT_VERSION = '7';
 const SESSIONS_CONTENT_VERSION_KEY = 'sessions-content-v';
 const WEEK1_CONTENT_VERSION_KEY = 'week1-content-v';
 const WEEK2_CONTENT_VERSION = '6';
@@ -281,7 +281,7 @@ function buildDesignThinkingSessionEntries() {
         {
             id: 'session-design-thinking-intro',
             type: 'project',
-            title: 'Design Thinking Session',
+            title: 'Session 1 — Design Thinking & Innovation',
             description:
                 'An insightful session on Design Thinking and Innovation, conducted by Prof. Srilalitha Girija Kumari Sagi at Tinkerers\' Lab, Sanjivani University. The session emphasized building innovation through creativity and guided students to approach challenges creatively, develop impactful solutions for the future, and embrace the motto: Learn by doing. Lead by innovating.',
             createdAt: '2026-05-26T10:00:00.000Z',
@@ -329,9 +329,9 @@ function buildEdgeImpulseSessionEntries() {
         {
             id: 'session-edge-impulse-intro',
             type: 'project',
-            title: 'Edge Impulse Session',
+            title: 'Session 2 — Edge Impulse: Build Smart. Deploy Anywhere.',
             description:
-                'A hands-on session on Edge AI and Machine Learning using Edge Impulse, conducted by Jaydeep Ashtekar at Tinkerers\' Lab, Sanjivani University. The session covered building and deploying ML models at the edge, exploring real-world applications, and embracing the motto: Be a Tinkerer. Build the Future.',
+                'A hands-on session on Edge AI and Machine Learning using Edge Impulse, conducted by Jaydeep Ashtekar (Assistant Professor, Department of Data Science | Business Analytics, Sanjivani College of Engineering, Kopargaon) at Tinkerers\' Lab, Sanjivani University — 2:00 PM. The session covered building and deploying ML models at the edge on microcontrollers, exploring real-world demos, and the Tinkerers\' Lab motto: Be a Tinkerer. Build the Future.',
             createdAt: '2026-06-01T14:00:00.000Z',
         },
         {
@@ -339,44 +339,61 @@ function buildEdgeImpulseSessionEntries() {
             type: 'image',
             src: `${base}01-edge-impulse-flyer.png`,
             caption:
-                'Edge Impulse Session Flyer: A Hands-on Session on Building and Deploying Machine Learning Models at the Edge, conducted by Jaydeep Ashtekar, Assistant Professor at Sanjivani University.',
+                'Session 2 poster — Join the Session on EDGE IMPULSE: BUILD SMART. DEPLOY ANYWHERE. A hands-on session on building and deploying Machine Learning models at the Edge. Speaker: Jaydeep Ashtekar, Assistant Professor (Data Science | Business Analytics), Sanjivani University. Venue: Tinkerers\' Lab, 2:00 PM. Topics: Introduction to Edge AI, Build ML Models with Edge Impulse, Deploy on Embedded Devices, Real-world Applications & Demos.',
             createdAt: '2026-06-01T14:05:00.000Z',
+        },
+        {
+            id: 'session-edge-impulse-learning-explore',
+            type: 'learning',
+            topic: 'What You\'ll Explore',
+            machine: 'Tinkerers\' Lab, Sanjivani University — Edge Impulse Studio',
+            concept:
+                'Session agenda from the workshop flyer:\n1. Introduction to Edge AI — why run intelligence on-device instead of only in the cloud.\n2. Build ML Models with Edge Impulse — collect sensor data, label samples, and train in the browser.\n3. Deploy on Embedded Devices — export optimized firmware for boards like ESP32, Arduino, and STM32.\n4. Real-world Applications & Demos — see live examples with a microcontroller and the Edge Impulse web dashboard.',
+            createdAt: '2026-06-01T14:08:00.000Z',
         },
         {
             id: 'session-edge-impulse-learning-intro',
             type: 'learning',
             topic: 'Introduction to Edge Impulse',
-            machine: 'Edge Impulse Platform, Edge Devices (ESP32, Arduino, etc.)',
+            machine: 'Edge Impulse Platform — ESP32, Arduino, STM32, Raspberry Pi',
             concept:
-                'Edge Impulse is the leading development platform for embedded machine learning, used by over 1,000 enterprises across 10,000 ML projects worldwide. It enables developers to create, train, and deploy AI/ML models on microcontrollers and IoT devices such as ESP32, Arduino, STM32, and Raspberry Pi.',
+                'Edge Impulse is a machine learning development platform designed for embedded systems and edge devices. It enables developers, students, and engineers to create, train, and deploy Artificial Intelligence (AI) and Machine Learning (ML) models on microcontrollers and IoT devices such as ESP32, Arduino, STM32, and Raspberry Pi.\n\nEdge AI keeps inference local: sensor data is processed on the device, which improves privacy, cuts cloud costs, and enables decisions even when Wi-Fi is unavailable.',
             createdAt: '2026-06-01T14:10:00.000Z',
         },
         {
             id: 'session-edge-impulse-learning-features',
             type: 'learning',
-            topic: 'Key Features of Edge Impulse',
+            topic: 'Key Features',
             machine: 'Edge Impulse Cloud Platform',
             concept:
-                'Key features of Edge Impulse:\n1. Data Collection: Collect sensor data from devices such as accelerometers, microphones, cameras, and environmental sensors.\n2. Data Processing: Clean, label, and preprocess data using built-in tools.\n3. Model Training: Train machine learning models directly in the cloud without requiring powerful local hardware.\n4. Model Testing: Evaluate model performance using accuracy, confusion matrices, and other metrics.\n5. Deployment: Export trained models for microcontrollers and embedded systems with optimized memory and power usage.\n6. Real-Time Inference: Run AI models directly on devices without requiring a continuous internet connection.',
+                'Key Features:\n• Data Collection — Collect sensor data from devices such as accelerometers, microphones, cameras, and environmental sensors.\n• Data Processing — Clean, label, and preprocess data using built-in tools.\n• Model Training — Train machine learning models directly in the cloud without requiring powerful local hardware.\n• Model Testing — Evaluate model performance using accuracy, confusion matrices, and other metrics.\n• Deployment — Export trained models for microcontrollers and embedded systems with optimized memory and power usage.\n• Real-Time Inference — Run AI models directly on devices without requiring a continuous internet connection.',
             createdAt: '2026-06-01T14:15:00.000Z',
         },
         {
             id: 'session-edge-impulse-learning-applications',
             type: 'learning',
-            topic: 'Applications of Edge Impulse',
+            topic: 'Applications',
             machine: 'Edge AI Use Cases',
             concept:
-                'Real-world applications of Edge Impulse:\n• Smart Agriculture\n• Predictive Maintenance\n• Gesture Recognition\n• Voice and Sound Detection\n• Environmental Monitoring\n• Industrial Automation\n• Smart Home Systems',
+                'Applications:\n• Smart Agriculture — soil moisture, crop health, and pest detection from on-field sensors.\n• Predictive Maintenance — vibration and temperature patterns to flag machine faults early.\n• Gesture Recognition — motion sensors for touchless controls and wearables.\n• Voice and Sound Detection — keyword spotting and anomaly audio on low-power MCUs.\n• Environmental Monitoring — air quality, humidity, and pollution tracking.\n• Industrial Automation — quality inspection and safety alerts at the production line.\n• Smart Home Systems — occupancy, security, and energy optimization without constant cloud calls.',
             createdAt: '2026-06-01T14:20:00.000Z',
         },
         {
             id: 'session-edge-impulse-learning-advantages',
             type: 'learning',
-            topic: 'Advantages of Edge Impulse',
+            topic: 'Advantages',
             machine: 'Edge Computing Benefits',
             concept:
-                'Advantages of using Edge Impulse for embedded ML:\n• User-friendly graphical interface.\n• Supports various sensors and hardware platforms.\n• Reduces cloud dependency by running AI at the edge.\n• Low latency and fast response times.\n• Optimized for low-power devices.',
+                'Advantages:\n• User-friendly graphical interface — no-code/low-code workflow from data to deployment.\n• Supports various sensors and hardware platforms — one studio for many boards and modalities.\n• Reduces cloud dependency by running AI at the edge.\n• Low latency and fast response times — critical for robotics, safety, and real-time control.\n• Optimized for low-power devices — quantized models fit tight flash and RAM on microcontrollers.',
             createdAt: '2026-06-01T14:25:00.000Z',
+        },
+        {
+            id: 'session-edge-impulse-img-02',
+            type: 'image',
+            src: `${base}02-edge-impulse-performance.png`,
+            caption:
+                'Edge Impulse model testing view — accuracy metrics and confusion matrix used during the session to validate a trained classifier before deploying to embedded hardware.',
+            createdAt: '2026-06-01T14:30:00.000Z',
         },
     ];
 }
@@ -1247,7 +1264,10 @@ function applySessionsContentVersion(state) {
     if (localStorage.getItem(SESSIONS_CONTENT_VERSION_KEY) === SESSIONS_CONTENT_VERSION) {
         return state;
     }
-    state.sessions = [...buildDesignThinkingSessionEntries()];
+    state.sessions = [
+        ...buildDesignThinkingSessionEntries(),
+        ...buildEdgeImpulseSessionEntries(),
+    ];
     localStorage.setItem(SESSIONS_CONTENT_VERSION_KEY, SESSIONS_CONTENT_VERSION);
     return state;
 }
@@ -1584,7 +1604,9 @@ function renderEntry(entry) {
                 entry.id === 'w3-day2-intro' ||
                 entry.id === 'w3-day3-intro' ||
                 entry.id === 'w3-day4-intro' ||
-                entry.id === 'w4-day2-intro'
+                entry.id === 'w4-day2-intro' ||
+                entry.id === 'session-design-thinking-intro' ||
+                entry.id === 'session-edge-impulse-intro'
                     ? `<h3 class="week-section-heading">${escapeHtml(entry.title)}</h3><p>${escapeHtml(entry.description)}</p>`
                     : `<p><strong>${escapeHtml(entry.title)}</strong></p><p>${escapeHtml(entry.description)}</p>`;
             break;
