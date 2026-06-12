@@ -1,5 +1,7 @@
 const STORAGE_KEY = 'tinkerer-portfolio-v1';
-const WEEK1_CONTENT_VERSION = '4';
+const WEEK1_CONTENT_VERSION = '6';
+const SESSIONS_CONTENT_VERSION = '5';
+const SESSIONS_CONTENT_VERSION_KEY = 'sessions-content-v';
 const WEEK1_CONTENT_VERSION_KEY = 'week1-content-v';
 const WEEK2_CONTENT_VERSION = '6';
 const WEEK2_CONTENT_VERSION_KEY = 'week2-content-v';
@@ -7,8 +9,6 @@ const WEEK3_CONTENT_VERSION = '6';
 const WEEK3_CONTENT_VERSION_KEY = 'week3-content-v';
 const WEEK4_CONTENT_VERSION = '3';
 const WEEK4_CONTENT_VERSION_KEY = 'week4-content-v';
-const SESSIONS_CONTENT_VERSION = '1';
-const SESSIONS_CONTENT_VERSION_KEY = 'sessions-content-v';
 const DAYS_PER_WEEK = 6;
 const DEFAULT_PROFILE_SRC = 'assets/profile-photo.png';
 const MAX_FILE_SIZE = 5 * 1024 * 1024; /* 5 MB per file — localStorage limit */
@@ -275,6 +275,112 @@ function buildWeek1Day3Entries() {
     ];
 }
 
+function buildDesignThinkingSessionEntries() {
+    const base = 'assets/sessions/design-thinking/';
+    return [
+        {
+            id: 'session-design-thinking-intro',
+            type: 'project',
+            title: 'Design Thinking Session',
+            description:
+                'An insightful session on Design Thinking and Innovation, conducted by Prof. Srilalitha Girija Kumari Sagi at Tinkerers\' Lab, Sanjivani University. The session emphasized building innovation through creativity and guided students to approach challenges creatively, develop impactful solutions for the future, and embrace the motto: Learn by doing. Lead by innovating.',
+            createdAt: '2026-05-26T10:00:00.000Z',
+        },
+        {
+            id: 'session-design-thinking-img-01',
+            type: 'image',
+            src: `${base}01-session-poster.png`,
+            caption:
+                'Design Thinking Session Poster: Summer Internship Program 2026 at Tinkerers\' Lab, Sanjivani University, conducted by Prof. Srilalitha Girija Kumari Sagi on 26th May 2026.',
+            createdAt: '2026-05-26T10:15:00.000Z',
+        },
+        {
+            id: 'session-design-thinking-learning-process',
+            type: 'learning',
+            topic: 'The 5-Step Design Thinking Process (Stanford d.school)',
+            machine: 'Tinkerers\' Lab, Sanjivani University',
+            concept:
+                'The design thinking process, popularized by Stanford d.school, is a 5-step iterative framework split into two phases:\n1. Problem Finding Phase:\n   • Empathize: Understand user needs deeply through observation and interaction.\n   • Define: Frame the problem statement based on user insights.\n2. Solution Finding Phase:\n   • Ideate: Generate creative solutions through brainstorming and other techniques.\n   • Prototype: Build quick, tangible versions of potential solutions.\n   • Test: Validate prototypes with users and refine based on feedback.',
+            createdAt: '2026-05-26T10:05:00.000Z',
+        },
+        {
+            id: 'session-design-thinking-learning-culture',
+            type: 'learning',
+            topic: 'Design Thinking in Organizational Culture',
+            machine: 'Tinkerers\' Lab, Sanjivani University',
+            concept:
+                'More and more companies are using design thinking to uncover user needs and design solutions that delight customers. Three key takeaways:\n1. Adapt the process to fit your unique organizational culture for maximum impact.\n2. Ensure design thinking drives a high return on investment (ROI) for time and resources.\n3. Learn from how leading companies have integrated design thinking into their workflows successfully.',
+            createdAt: '2026-05-26T10:10:00.000Z',
+        },
+        {
+            id: 'session-design-thinking-img-02',
+            type: 'image',
+            src: `${base}02-session-workshop.png`,
+            caption:
+                'Design Thinking Workshop in progress at Tinkerers\' Lab, where students actively participate in hands-on activities.',
+            createdAt: '2026-05-26T10:20:00.000Z',
+        },
+    ];
+}
+
+function buildEdgeImpulseSessionEntries() {
+    const base = 'assets/sessions/edge-impulse/';
+    return [
+        {
+            id: 'session-edge-impulse-intro',
+            type: 'project',
+            title: 'Edge Impulse Session',
+            description:
+                'A hands-on session on Edge AI and Machine Learning using Edge Impulse, conducted by Jaydeep Ashtekar at Tinkerers\' Lab, Sanjivani University. The session covered building and deploying ML models at the edge, exploring real-world applications, and embracing the motto: Be a Tinkerer. Build the Future.',
+            createdAt: '2026-06-01T14:00:00.000Z',
+        },
+        {
+            id: 'session-edge-impulse-img-01',
+            type: 'image',
+            src: `${base}01-edge-impulse-flyer.png`,
+            caption:
+                'Edge Impulse Session Flyer: A Hands-on Session on Building and Deploying Machine Learning Models at the Edge, conducted by Jaydeep Ashtekar, Assistant Professor at Sanjivani University.',
+            createdAt: '2026-06-01T14:05:00.000Z',
+        },
+        {
+            id: 'session-edge-impulse-learning-intro',
+            type: 'learning',
+            topic: 'Introduction to Edge Impulse',
+            machine: 'Edge Impulse Platform, Edge Devices (ESP32, Arduino, etc.)',
+            concept:
+                'Edge Impulse is the leading development platform for embedded machine learning, used by over 1,000 enterprises across 10,000 ML projects worldwide. It enables developers to create, train, and deploy AI/ML models on microcontrollers and IoT devices such as ESP32, Arduino, STM32, and Raspberry Pi.',
+            createdAt: '2026-06-01T14:10:00.000Z',
+        },
+        {
+            id: 'session-edge-impulse-learning-features',
+            type: 'learning',
+            topic: 'Key Features of Edge Impulse',
+            machine: 'Edge Impulse Cloud Platform',
+            concept:
+                'Key features of Edge Impulse:\n1. Data Collection: Collect sensor data from devices such as accelerometers, microphones, cameras, and environmental sensors.\n2. Data Processing: Clean, label, and preprocess data using built-in tools.\n3. Model Training: Train machine learning models directly in the cloud without requiring powerful local hardware.\n4. Model Testing: Evaluate model performance using accuracy, confusion matrices, and other metrics.\n5. Deployment: Export trained models for microcontrollers and embedded systems with optimized memory and power usage.\n6. Real-Time Inference: Run AI models directly on devices without requiring a continuous internet connection.',
+            createdAt: '2026-06-01T14:15:00.000Z',
+        },
+        {
+            id: 'session-edge-impulse-learning-applications',
+            type: 'learning',
+            topic: 'Applications of Edge Impulse',
+            machine: 'Edge AI Use Cases',
+            concept:
+                'Real-world applications of Edge Impulse:\n• Smart Agriculture\n• Predictive Maintenance\n• Gesture Recognition\n• Voice and Sound Detection\n• Environmental Monitoring\n• Industrial Automation\n• Smart Home Systems',
+            createdAt: '2026-06-01T14:20:00.000Z',
+        },
+        {
+            id: 'session-edge-impulse-learning-advantages',
+            type: 'learning',
+            topic: 'Advantages of Edge Impulse',
+            machine: 'Edge Computing Benefits',
+            concept:
+                'Advantages of using Edge Impulse for embedded ML:\n• User-friendly graphical interface.\n• Supports various sensors and hardware platforms.\n• Reduces cloud dependency by running AI at the edge.\n• Low latency and fast response times.\n• Optimized for low-power devices.',
+            createdAt: '2026-06-01T14:25:00.000Z',
+        },
+    ];
+}
+
 function tagEntriesWithDay(entries, day) {
     return entries.map((entry) => ({ ...entry, day }));
 }
@@ -363,9 +469,57 @@ function buildWeek2Day1Entries() {
     ];
 }
 
+function buildWeek2Day3Entries() {
+    const base = 'assets/week2-day3-cricut/';
+    const captions = [
+        'Day 3 · Step 1 — Google search for “cricut maker software download”. Skip ads; open the official help.cricut.com result — Design Space Download and Installation Instructions (green arrow).',
+        'Day 3 · Step 2 — Cricut help page: under Download links, select Cricut Design Space (Mac/Windows) — the desktop installer for cutting machines (highlighted).',
+        'Day 3 · Step 3 — design.cricut.com “Find Your Cricut Product”: use the search bar (red arrow) and pick your machine from the Cutting Machines list (e.g. Cricut Maker 4).',
+        'Day 3 · Step 4 — Download Design Space for Windows: tick “I agree to Cricut Terms of Use and Privacy Policy” (red arrow) — the Download button stays grey until the checkbox is checked.',
+        'Day 3 · Step 5 — After clicking Download, the browser shows Recent download history: CricutDesignSpace-Install-v9.7.69.exe (295 MB — Done). Red arrow points to the download icon in the toolbar.',
+        'Day 3 · Step 6 — File Explorer → Downloads: CricutDesignSpace-Install-v9.7.69.exe is ready. Double-click the installer to start setup.',
+        'Day 3 · Step 7 — Cricut Design Space Setup window: “Installing, please wait…” with a green progress bar (~35–40% in this capture).',
+        'Day 3 · Step 8 — Cricut Sign In screen: enter email and password on the Sign In tab (or switch to Create Cricut ID). Click the green SIGN IN button after entering credentials.',
+        'Day 3 · Step 9 — Design Space home: personalized greeting “Hi Prathamesh, what do you want to make?” Click + New Project (orange arrow) to open a blank canvas.',
+        'Day 3 · Step 10 — New Iron-On T-Shirt project: left sidebar → Images (green highlight). Browse the built-in image library or search for graphics to add to the canvas.',
+        'Day 3 · Step 11 — Canvas design complete: add Text “Prathamesh” and a star from Images. Size the layout to 8.89 cm × 8.89 cm on the grid — ready for iron-on transfer.',
+        'Day 3 · Step 12 — Click Preview (top bar) to open Preview Project — shows the design on a white baby onesie mockup. When satisfied, click Make (green button, orange arrow) to send the job to the Cricut machine.',
+    ];
+
+    const images = captions.map((caption, i) => ({
+        id: `w2-day3-img-${String(i + 1).padStart(2, '0')}`,
+        type: 'image',
+        src: `${base}${String(i + 1).padStart(2, '0')}.png`,
+        caption,
+        createdAt: `2026-06-12T${String(2 + Math.floor(i / 4)).padStart(2, '0')}:${String(17 + (i * 3) % 50).padStart(2, '0')}:00.000Z`,
+    }));
+
+    return [
+        {
+            id: 'w2-day3-intro',
+            type: 'project',
+            title: 'Week 2 — Day 3: Cricut Design Space & Iron-On Design',
+            description:
+                'Day 3 covered Cricut vinyl/iron-on workflow from software install to first project. I searched for the official Design Space download, selected Cricut Maker 4, accepted terms and downloaded the Windows installer, ran setup, signed in, started a New Project (Iron-On T-Shirt), added text and a star graphic on an 8.89 cm canvas, previewed the design on a onesie mockup, and clicked Make to prepare the cut.',
+            createdAt: '2026-06-12T02:17:00.000Z',
+        },
+        {
+            id: 'w2-day3-learning',
+            type: 'learning',
+            topic: 'Cricut Design Space & iron-on workflow',
+            machine: 'Cricut Maker 4, Cricut Design Space v9.7 (Windows)',
+            concept:
+                'Design Space is the companion app for all Cricut cutting machines. After install, sign in with a Cricut ID. New Project opens a canvas with rulers in cm. Use Text and Images from the left toolbar; set material type (Iron-On) so cut settings match heat-transfer vinyl. Preview shows how the design looks on a product mockup. Make walks through mat loading, material selection, and sending the job to the cutter — mirror iron-on designs before cutting.',
+            createdAt: '2026-06-12T02:18:00.000Z',
+        },
+        ...images,
+    ];
+}
+
 function buildWeek2AllEntries() {
     return [
         ...tagEntriesWithDay(buildWeek2Day1Entries(), 1),
+        ...tagEntriesWithDay(buildWeek2Day3Entries(), 3),
         ...tagEntriesWithDay(buildWeek2Day5Entries(), 5),
     ];
 }
@@ -957,65 +1111,6 @@ function buildWeek4Day2Entries() {
     ];
 }
 
-function buildDesignThinkingSessionEntries() {
-    const base = 'assets/sessions/design-thinking/';
-    return [
-        {
-            id: 'sess-dt-intro',
-            type: 'project',
-            title: 'Design Thinking Session — Summer Internship 2026',
-            description:
-                'An insightful session on Design Thinking and Innovation at Tinkerers\' Lab, Sanjivani University (25 May 2026). Led by Prof. Srilalitha Girija Kumari Sagi — Director, Executive Education & MDPs — the workshop guided interns to approach challenges creatively, empathize with users, and build impactful solutions. Theme: Learn by doing. Lead by innovating.',
-            createdAt: '2026-05-25T10:00:00.000Z',
-        },
-        {
-            id: 'sess-dt-learning-overview',
-            type: 'learning',
-            topic: 'What is Design Thinking?',
-            machine: 'Human-centered innovation framework (Stanford d.school)',
-            concept:
-                'Design Thinking is a structured, creative problem-solving process that starts with people, not products. Instead of jumping to a technical fix, you first understand real user needs, reframe the problem, explore many ideas, build quick prototypes, and test with feedback. The five stages — Empathize, Define, Ideate, Prototype, Test — form a loop you repeat until the solution truly fits the user.',
-            createdAt: '2026-05-25T10:05:00.000Z',
-        },
-        {
-            id: 'sess-dt-learning-stages',
-            type: 'learning',
-            topic: 'The 5 stages of Design Thinking',
-            machine: 'Empathize → Define → Ideate → Prototype → Test',
-            concept:
-                '• Empathize — Understand your users\' actual struggles and emotions through interviews, observation, or empathy mapping. Step into their context before proposing solutions.\n• Define — Synthesize research into a clear problem statement (Point of View). Focus on the root need, not just symptoms.\n• Ideate — Run brainstorming sessions to push past obvious answers and generate diverse, creative alternatives. Quantity and variety matter here.\n• Prototype — Bring the best ideas to life quickly and cheaply using paper, sticky notes, cardboard, or digital mock-ups. Prototypes are for learning, not perfection.\n• Test — Put prototypes in front of real users or stakeholders, gather feedback, and refine. Failed tests are valuable data that send you back to earlier stages.',
-            createdAt: '2026-05-25T10:10:00.000Z',
-        },
-        {
-            id: 'sess-dt-img-poster',
-            type: 'image',
-            src: `${base}01-session-poster.png`,
-            caption:
-                'Session poster — Design Thinking Session, Summer Internship Program 2026. Speaker: Prof. Srilalitha Girija Kumari Sagi. Venue: Tinkerers\' Lab. Core themes: Innovate (generate meaningful ideas), Empathize (understand people, solve real problems), Implement (create impact).',
-            createdAt: '2026-05-25T10:15:00.000Z',
-        },
-        {
-            id: 'sess-dt-img-workshop',
-            type: 'image',
-            src: `${base}02-session-workshop.png`,
-            caption:
-                'Live workshop at Tinkerers\' Lab — Prof. Srilalitha Girija Kumari Sagi presenting on organisational development and innovation to Summer Internship 2026 participants.',
-            createdAt: '2026-05-25T10:20:00.000Z',
-        },
-    ];
-}
-
-function buildDefaultSessions() {
-    return [
-        {
-            id: 'sess-design-thinking',
-            label: 'Design Thinking Session',
-            expanded: true,
-            entries: buildDesignThinkingSessionEntries(),
-        },
-    ];
-}
-
 const DEFAULT_DATA = {
     profileImage: null,
     aboutExtra: '',
@@ -1074,7 +1169,10 @@ const DEFAULT_DATA = {
             entries: [...tagEntriesWithDay(buildWeek4Day2Entries(), 2)],
         },
     ],
-    sessions: buildDefaultSessions(),
+    sessions: [
+        ...buildDesignThinkingSessionEntries(),
+        ...buildEdgeImpulseSessionEntries(),
+    ],
 };
 
 let state = loadState();
@@ -1149,7 +1247,7 @@ function applySessionsContentVersion(state) {
     if (localStorage.getItem(SESSIONS_CONTENT_VERSION_KEY) === SESSIONS_CONTENT_VERSION) {
         return state;
     }
-    state.sessions = buildDefaultSessions();
+    state.sessions = [...buildDesignThinkingSessionEntries()];
     localStorage.setItem(SESSIONS_CONTENT_VERSION_KEY, SESSIONS_CONTENT_VERSION);
     return state;
 }
@@ -1265,8 +1363,16 @@ function renderAll() {
     renderAbout();
     renderSkills();
     renderProjects();
-    renderSessions();
     renderWeeks();
+    renderSessions();
+}
+
+function renderSessions() {
+    const container = document.getElementById('sessions-container');
+    if (!container) return;
+    container.innerHTML = state.sessions
+        .map((entry) => renderEntry(entry))
+        .join('');
 }
 
 function renderProfile() {
@@ -1390,46 +1496,6 @@ function renderWeekDays(entries) {
     }).join('');
 }
 
-function renderSessions() {
-    const container = document.getElementById('sessions-container');
-    if (!container) return;
-    const sessions = state.sessions ?? [];
-    container.innerHTML = sessions.length
-        ? sessions
-              .map((session, index) => {
-                  const entriesHtml = session.entries.length
-                      ? session.entries.map((e) => renderEntry(e)).join('')
-                      : '<p class="session-empty">No entries for this session yet.</p>';
-
-                  return `
-        <div class="session-block ${session.expanded ? 'expanded' : ''}" data-session="${index}">
-            <button type="button" class="session-toggle" aria-expanded="${session.expanded}">
-                <span class="session-chevron">▶</span>
-                <span class="session-title">${escapeHtml(session.label)}</span>
-                <span class="session-count">${session.entries.length} ${session.entries.length === 1 ? 'entry' : 'entries'}</span>
-            </button>
-            <div class="session-panel">
-                <div class="session-entries">${entriesHtml}</div>
-                <div class="session-actions">
-                    <button type="button" class="btn btn-session" data-action="note" data-session="${index}">📝 Add Note</button>
-                    <button type="button" class="btn btn-session" data-action="learning" data-session="${index}">📖 Add Learning</button>
-                    <button type="button" class="btn btn-session" data-action="project" data-session="${index}">🛠 Add Project</button>
-                    <label class="btn btn-session btn-file">
-                        🖼 Add Image
-                        <input type="file" accept="image/*" data-action="image" data-session="${index}" hidden>
-                    </label>
-                    <label class="btn btn-session btn-file">
-                        📎 Add File
-                        <input type="file" accept="${FILE_ACCEPT}" data-action="file" data-session="${index}" hidden>
-                    </label>
-                </div>
-            </div>
-        </div>`;
-              })
-              .join('')
-        : '<p class="section-desc">No sessions yet. Click <strong>+ Add Session</strong> to document a workshop or talk.</p>';
-}
-
 function renderWeeks() {
     const container = document.getElementById('weeks-container');
     container.innerHTML = state.weeks
@@ -1518,8 +1584,7 @@ function renderEntry(entry) {
                 entry.id === 'w3-day2-intro' ||
                 entry.id === 'w3-day3-intro' ||
                 entry.id === 'w3-day4-intro' ||
-                entry.id === 'w4-day2-intro' ||
-                entry.id === 'sess-dt-intro'
+                entry.id === 'w4-day2-intro'
                     ? `<h3 class="week-section-heading">${escapeHtml(entry.title)}</h3><p>${escapeHtml(entry.description)}</p>`
                     : `<p><strong>${escapeHtml(entry.title)}</strong></p><p>${escapeHtml(entry.description)}</p>`;
             break;
@@ -1669,148 +1734,6 @@ function addBio() {
             renderAbout();
         }
     );
-}
-
-function addSession() {
-    openModal(
-        'Add Session',
-        fieldGroup('Session title', 'title', 'text', {
-            placeholder: 'e.g. Design Thinking Workshop, Guest Lecture…',
-        }),
-        (data) => {
-            if (!state.sessions) state.sessions = [];
-            state.sessions.unshift({
-                id: uid(),
-                label: data.title.trim(),
-                expanded: true,
-                entries: [],
-            });
-            saveState();
-            renderSessions();
-        }
-    );
-}
-
-function addSessionEntry(sessionIndex, type) {
-    const session = state.sessions[sessionIndex];
-    const titles = { note: 'Add Note', learning: 'Add Learning', project: 'Add Project' };
-
-    if (type === 'note') {
-        openModal(
-            titles.note,
-            fieldGroup('Note', 'text', 'textarea', { placeholder: 'Session notes, takeaways…' }),
-            (data) => {
-                session.entries.unshift({ id: uid(), type: 'note', text: data.text.trim(), createdAt: new Date().toISOString() });
-                saveState();
-                renderSessions();
-            }
-        );
-        return;
-    }
-
-    if (type === 'learning') {
-        openModal(
-            titles.learning,
-            fieldGroup('Topic', 'topic', 'text', { placeholder: 'What did you learn?' }) +
-                fieldGroup('Machine / tool', 'machine', 'text', { placeholder: 'Optional', required: false }) +
-                fieldGroup('Concept', 'concept', 'textarea', { placeholder: 'Key idea or takeaway', required: false }),
-            (data) => {
-                session.entries.unshift({
-                    id: uid(),
-                    type: 'learning',
-                    topic: data.topic.trim(),
-                    machine: data.machine?.trim() || '',
-                    concept: data.concept?.trim() || '',
-                    createdAt: new Date().toISOString(),
-                });
-                saveState();
-                renderSessions();
-            }
-        );
-        return;
-    }
-
-    if (type === 'project') {
-        openModal(
-            titles.project,
-            fieldGroup('Activity title', 'title', 'text', { placeholder: 'Session activity or topic' }) +
-                fieldGroup('Description', 'description', 'textarea', { placeholder: 'What happened in this session' }),
-            (data) => {
-                session.entries.unshift({
-                    id: uid(),
-                    type: 'project',
-                    title: data.title.trim(),
-                    description: data.description.trim(),
-                    createdAt: new Date().toISOString(),
-                });
-                saveState();
-                renderSessions();
-            }
-        );
-    }
-}
-
-function addSessionImage(sessionIndex, file) {
-    if (!file || !file.type.startsWith('image/')) return;
-    if (!validateFile(file)) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-        openModal(
-            'Add Image',
-            `<div class="image-preview-wrap"><img src="${reader.result}" alt="Preview" class="image-preview"></div>` +
-                fieldGroup('Caption (optional)', 'caption', 'text', { required: false }),
-            (data) => {
-                state.sessions[sessionIndex].entries.unshift({
-                    id: uid(),
-                    type: 'image',
-                    src: reader.result,
-                    caption: data.caption?.trim() || '',
-                    createdAt: new Date().toISOString(),
-                });
-                saveState();
-                renderSessions();
-            }
-        );
-    };
-    reader.readAsDataURL(file);
-}
-
-async function addSessionFile(sessionIndex, file) {
-    if (!file || !validateFile(file)) return;
-    try {
-        const dataUrl = await readFileAsDataUrl(file);
-        openModal(
-            'Add File',
-            `<p class="file-preview-name">${fileIcon(file.name, file.type)} ${escapeHtml(file.name)} <span class="file-size">(${formatFileSize(file.size)})</span></p>` +
-                fieldGroup('Description (optional)', 'description', 'textarea', {
-                    placeholder: 'What is this file?',
-                    required: false,
-                    rows: 3,
-                }),
-            (data) => {
-                state.sessions[sessionIndex].entries.unshift({
-                    id: uid(),
-                    type: 'file',
-                    fileName: file.name,
-                    mimeType: file.type || 'application/octet-stream',
-                    size: file.size,
-                    dataUrl,
-                    description: data.description?.trim() || '',
-                    createdAt: new Date().toISOString(),
-                });
-                saveState();
-                renderSessions();
-            }
-        );
-    } catch {
-        alert('Could not read that file. Please try again.');
-    }
-}
-
-function toggleSession(index) {
-    state.sessions[index].expanded = !state.sessions[index].expanded;
-    saveState();
-    renderSessions();
 }
 
 function addWeekEntry(weekIndex, type) {
@@ -1979,14 +1902,12 @@ function deleteEntry(entryId) {
             return;
         }
     }
-    for (const session of state.sessions ?? []) {
-        const i = session.entries.findIndex((e) => e.id === entryId);
-        if (i !== -1) {
-            session.entries.splice(i, 1);
-            saveState();
-            renderSessions();
-            return;
-        }
+    const i = state.sessions.findIndex((e) => e.id === entryId);
+    if (i !== -1) {
+        state.sessions.splice(i, 1);
+        saveState();
+        renderSessions();
+        return;
     }
 }
 
@@ -2019,7 +1940,6 @@ document.getElementById('profile-upload').addEventListener('change', (e) => {
 document.getElementById('btn-add-skill').addEventListener('click', addSkill);
 document.getElementById('btn-add-project').addEventListener('click', addProject);
 document.getElementById('btn-add-bio').addEventListener('click', addBio);
-document.getElementById('btn-add-session').addEventListener('click', addSession);
 
 document.getElementById('modal-close').addEventListener('click', closeModal);
 document.getElementById('modal-cancel').addEventListener('click', closeModal);
@@ -2033,36 +1953,6 @@ modalForm.addEventListener('submit', (e) => {
     const data = Object.fromEntries(new FormData(modalForm));
     modalContext.onSubmit(data);
     closeModal();
-});
-
-document.getElementById('sessions-container').addEventListener('click', (e) => {
-    const toggle = e.target.closest('.session-toggle');
-    if (toggle) {
-        toggleSession(Number(toggle.closest('.session-block').dataset.session));
-        return;
-    }
-    const sessionBtn = e.target.closest('[data-action]');
-    if (sessionBtn && sessionBtn.tagName === 'BUTTON' && sessionBtn.dataset.session !== undefined) {
-        addSessionEntry(Number(sessionBtn.dataset.session), sessionBtn.dataset.action);
-        return;
-    }
-    const del = e.target.closest('.delete-entry');
-    if (del) {
-        if (confirm('Delete this entry?')) deleteEntry(del.dataset.id);
-        return;
-    }
-});
-
-document.getElementById('sessions-container').addEventListener('change', (e) => {
-    const input = e.target.closest('input[data-action]');
-    if (!input?.files?.[0] || input.dataset.session === undefined) return;
-    const sessionIndex = Number(input.dataset.session);
-    if (input.dataset.action === 'image') {
-        addSessionImage(sessionIndex, input.files[0]);
-    } else if (input.dataset.action === 'file') {
-        addSessionFile(sessionIndex, input.files[0]);
-    }
-    input.value = '';
 });
 
 document.getElementById('weeks-container').addEventListener('click', (e) => {
